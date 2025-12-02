@@ -51,6 +51,29 @@ COSMOS_DATABASE_ID=your-database-name
 COSMOS_CONTAINER_ID=your-container-name
 ```
 
+### Local Development
+
+For local development, you must authenticate with Azure CLI for `DefaultAzureCredential` to work:
+
+```bash
+az login
+```
+
+This allows the application to authenticate using your Azure credentials when running locally.
+
+#### Cosmos DB RBAC Setup
+
+You also need to set up role-based access control (RBAC) permissions for your Azure user to access Cosmos DB. Run the setup script to create and assign the necessary role:
+
+```powershell
+.\scripts\setup-cosmos-rbac.ps1
+```
+
+**Note:** Update the variables in [`setup-cosmos-rbac.ps1`](scripts/setup-cosmos-rbac.ps1) with your specific values:
+- `$resourceGroupName` - Your Azure resource group name
+- `$accountName` - Your Cosmos DB account name
+- `$principalId` - Your Azure user principal ID (obtain with `az ad signed-in-user show --query id -o tsv`)
+
 ## Usage
 
 Run the example usage script:
@@ -74,11 +97,18 @@ npx tsx examples/usage.ts
 │   ├── Floor.ts          # Floor entity model
 │   ├── Project.ts        # Project entity model
 │   └── StructuralLayout.ts # Structural layout entity model
-└── repositories/
-    ├── index.ts          # Repository exports
-    └── Repository.ts     # Generic repository implementation
+├── repositories/
+│   ├── index.ts          # Repository exports
+│   └── Repository.ts     # Generic repository implementation
+└── scripts/
+    └── setup-cosmos-rbac.ps1 # PowerShell script to set up Cosmos DB RBAC
 ```
 
 ## Reference
 
-For more information, see the [Azure Cosmos DB NoSQL Node.js Quickstart](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/quickstart-nodejs?pivots=programming-language-ts) documentation.
+- [Azure Cosmos DB NoSQL Node.js Quickstart](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/quickstart-nodejs?pivots=programming-language-ts) - Official quickstart documentation
+
+- [Azure SDK Authentication with Credential Chains](https://learn.microsoft.com/en-us/azure/developer/javascript/sdk/authentication/credential-chains) - Learn how DefaultAzureCredential works and its authentication flow
+
+- [Cosmos DB Security Faq](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/faq?context=%2Fazure%2Fcosmos-db%2Fnosql%2Fcontext%2Fcontext#security) -
+Frequently asked questions about Cosmos DB Security
