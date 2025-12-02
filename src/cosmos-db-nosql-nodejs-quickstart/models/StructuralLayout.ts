@@ -26,7 +26,8 @@ export interface Polygon {
 }
 
 export interface StructuralLayout {
-  doc_type: string;
+  id: string;
+  docType: string;
   client_name: string;
   slug: string;
   floorId: string;
