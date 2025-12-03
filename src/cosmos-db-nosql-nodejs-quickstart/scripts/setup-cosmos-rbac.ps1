@@ -23,7 +23,6 @@ $roleDefinition = @"
            "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/write",
            "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/write"
         ]
-
     }]
 }
 "@
