@@ -4,7 +4,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug usage.ts",
+      "name": "Debug cosmos-db-nosql-nodejs-quickstart",
       "runtimeExecutable": "node",
       "runtimeArgs": [
         "--import",
@@ -15,6 +15,25 @@
       ],
       "cwd": "${workspaceFolder}/src/cosmos-db-nosql-nodejs-quickstart",
       "envFile": "${workspaceFolder}/src/cosmos-db-nosql-nodejs-quickstart/.env",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug app-config-nodejs-quickstart",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--import",
+        "tsx"
+      ],
+      "args": [
+        "${workspaceFolder}/src/app-config-nodejs-quickstart/examples/usage.ts"
+      ],
+      "cwd": "${workspaceFolder}/src/app-config-nodejs-quickstart",
+      "envFile": "${workspaceFolder}/src/app-config-nodejs-quickstart/.env",
       "skipFiles": [
         "<node_internals>/**"
       ],
