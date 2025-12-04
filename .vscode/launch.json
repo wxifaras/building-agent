@@ -38,6 +38,25 @@
         "<node_internals>/**"
       ],
       "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug storage-nodejs-quickstart",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--import",
+        "tsx"
+      ],
+      "args": [
+        "${workspaceFolder}/src/storage-nodejs-quickstart/examples/usage.ts"
+      ],
+      "cwd": "${workspaceFolder}/src/storage-nodejs-quickstart",
+      "envFile": "${workspaceFolder}/src/storage-nodejs-quickstart/.env",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal"
     }
   ]
 }
