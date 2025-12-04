@@ -211,3 +211,5 @@ src/cosmos-db-nosql-nodejs-quickstart/node_modules/*
 package-lock.json
 package.json
 src/app-config-nodejs-quickstart/node_modules/*
+src/storage-nodejs-quickstart/node_modules/*
+src/storage-nodejs-quickstart/sampleimages/*
