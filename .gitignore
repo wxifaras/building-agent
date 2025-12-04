@@ -212,4 +212,5 @@ package-lock.json
 package.json
 src/app-config-nodejs-quickstart/node_modules/*
 src/storage-nodejs-quickstart/node_modules/*
+src/storage-nodejs-quickstart/package-lock.json
 src/storage-nodejs-quickstart/sampleimages/*
