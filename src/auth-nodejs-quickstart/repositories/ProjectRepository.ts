@@ -55,3 +55,4 @@ export class ProjectRepository extends Repository<Project> {
 
     return await this.query(querySpec);
   }
+}

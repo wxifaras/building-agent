@@ -11,8 +11,18 @@ param(
 
 $roleName = "AllActionsRole"
 
-# Create role definition
-$roleDefinition = @"
+# Check if role definition already exists
+Write-Host "Checking if role '$roleName' already exists..."
+$existingRoleId = az cosmosdb sql role definition list --account-name $accountName --resource-group $resourceGroupName --query "[?roleName=='$roleName'].name" --output tsv
+
+if ($existingRoleId) {
+    Write-Host "Role '$roleName' already exists with ID: $existingRoleId"
+    $roleDefinitionId = $existingRoleId
+} else {
+    Write-Host "Role '$roleName' does not exist. Creating..."
+    
+    # Create role definition
+    $roleDefinition = @"
 {
     "RoleName": "$roleName",
     "Type": "CustomRole",
@@ -33,12 +43,14 @@ $roleDefinition = @"
 }
 "@
 
-$roleDefinition | Out-File -FilePath ./role-definition.json
+    $roleDefinition | Out-File -FilePath ./role-definition.json
 
-# Create the role
-az cosmosdb sql role definition create --account-name $accountName --resource-group $resourceGroupName --body "@role-definition.json"
+    # Create the role
+    az cosmosdb sql role definition create --account-name $accountName --resource-group $resourceGroupName --body "@role-definition.json"
 
-$roleDefinitionId=$(az cosmosdb sql role definition list --account-name $accountName --resource-group $resourceGroupName --query "[?roleName=='AllActionsRole'].name" --output tsv)
+    $roleDefinitionId = az cosmosdb sql role definition list --account-name $accountName --resource-group $resourceGroupName --query "[?roleName=='$roleName'].name" --output tsv
+    Write-Host "Role '$roleName' created with ID: $roleDefinitionId"
+}
 
 # Assign the role
 az cosmosdb sql role assignment create --account-name $accountName --resource-group $resourceGroupName --scope "/" --principal-id $principalId --role-definition-id $roleDefinitionId

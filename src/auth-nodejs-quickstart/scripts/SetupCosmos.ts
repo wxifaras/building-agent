@@ -1,4 +1,4 @@
-import { CosmosClient } from '@azure/cosmos';
+import { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind } from '@azure/cosmos';
 import { DefaultAzureCredential } from '@azure/identity';
 import * as dotenv from 'dotenv';
 
@@ -21,9 +21,9 @@ async function setup() {
 
   try {
     const credential = new DefaultAzureCredential();
-    const client = new CosmosClient({ 
-      endpoint, 
-      aadCredentials: credential 
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials: credential
     });
 
     // 1. Create Database
@@ -36,14 +36,17 @@ async function setup() {
     // 2. Create Container with Hierarchical Partition Key
     console.log(`\n2️⃣  Creating Container '${containerId}' if not exists...`);
     // Note: We use Hierarchical Partition Keys based on the repository usage: [client_name, slug]
-    const { container } = await database.containers.createIfNotExists({
+    const containerDefinition = {
       id: containerId,
       partitionKey: {
-        paths: ['/client_name', '/slug'],
-        version: 2, // Version 2 is required for hierarchical partition keys
-        kind: 'MultiHash'
-      }
-    });
+        paths: ["/client_name", "/slug"],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+    }
+    const { container } = await database.containers.createIfNotExists(containerDefinition);
+    console.log(container.id);
+
     console.log('   ✓ Container ready');
     console.log('   ✓ Partition Key: [/client_name, /slug]');
 

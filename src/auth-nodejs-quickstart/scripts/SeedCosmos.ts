@@ -4,12 +4,23 @@ import * as dotenv from 'dotenv';
 import { ProjectRepository } from '../repositories/ProjectRepository';
 import { ProjectMemberRepository } from '../repositories/ProjectMemberRepository';
 import { Project } from '../models/Project';
+import { randomUUID } from 'crypto';
 
 dotenv.config();
 
-function getArg(flag: string): string | undefined {
+function getArg(flag: string, positionalIndex?: number): string | undefined {
+  // Try to find the flag first
   const index = process.argv.indexOf(flag);
-  return (index > -1 && index + 1 < process.argv.length) ? process.argv[index + 1] : undefined;
+  if (index > -1 && index + 1 < process.argv.length) {
+    return process.argv[index + 1];
+  }
+  
+  // Fallback to positional argument if provided
+  if (positionalIndex !== undefined && process.argv.length > positionalIndex) {
+    return process.argv[positionalIndex];
+  }
+  
+  return undefined;
 }
 
 async function seed() {
@@ -22,13 +33,24 @@ async function seed() {
     process.exit(1);
   }
 
-  // Parse arguments
-  const ownerId = getArg('--owner-id');
-  const ownerEmail = getArg('--owner-email') || 'owner@example.com';
+  // Parse arguments (support both flag-based and positional)
+  // When run via npm, args come as positional: [script, file, arg1, arg2]
+  const ownerId = getArg('--owner-id', 2);
+  const ownerEmail = getArg('--owner-email', 3);
 
   if (!ownerId) {
-    console.error('Error: Please provide an owner ID.');
-    console.log('Usage: ts-node SeedCosmos.ts --owner-id <id> [--owner-email <email>]');
+    console.error('Error: --owner-id is required.');
+    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email>');
+    console.log('\nExample:');
+    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com"');
+    process.exit(1);
+  }
+
+  if (!ownerEmail) {
+    console.error('Error: --owner-email is required.');
+    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email>');
+    console.log('\nExample:');
+    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com"');
     process.exit(1);
   }
 
@@ -46,7 +68,7 @@ async function seed() {
   const memberRepo = new ProjectMemberRepository(container);
 
   // Sample Project Data
-  const projectId = 'proj_maidstone_001'; // Deterministic ID for testing
+  const projectId = randomUUID()
   const now = new Date().toISOString();
   
   const projectData: Omit<Project, 'docType'> = {
@@ -87,12 +109,12 @@ async function seed() {
   try {
     // 1. Create Project
     console.log(`Creating project: ${projectData.name}...`);
-    // Check if exists first to avoid duplicates/errors if run multiple times
-    const existingProject = await projectRepo.getById(projectData.id, projectData.client_name, projectData.slug);
+    // Check if exists first to avoid duplicates - ensures only one project per client_name/slug
+    const existingProject = await projectRepo.getProjectsByClientAndSlug(projectData.client_name, projectData.slug);
     
     let project: Project;
     if (existingProject) {
-      console.log('Project already exists, skipping creation.');
+      console.log('Project already exists for this client/slug combination, skipping creation.');
       project = existingProject;
     } else {
       project = await projectRepo.create(projectData);

@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Node.js App",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/app.ts",
+      "preLaunchTask": null,
+      "runtimeArgs": ["--loader", "ts-node/esm"],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "envFile": "${workspaceFolder}/.env",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug with tsx",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["tsx", "app.ts"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "envFile": "${workspaceFolder}/.env",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

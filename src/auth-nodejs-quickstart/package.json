@@ -5,6 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "start": "ts-node app.ts",
+    "dev": "nodemon --exec ts-node app.ts",
+    "debug": "node --inspect -r ts-node/register app.ts",
     "setup": "ts-node scripts/SetupCosmos.ts",
     "seed": "ts-node scripts/SeedCosmos.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +19,10 @@
     "@types/cors": "^2.8.19",
     "@types/dotenv": "^6.1.1",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "nodemon": "^3.0.2"
   },
   "dependencies": {
     "@azure/cosmos": "^4.9.0",

@@ -2,6 +2,7 @@
 import { Container } from "@azure/cosmos";
 import { Repository } from "./Repository";
 import { ProjectMember, ProjectRole, CachedProjectAccess } from "../models/ProjectMember";
+import { randomUUID } from "crypto";
 
 export class ProjectMemberRepository extends Repository<ProjectMember> {
   constructor(container: Container) {
@@ -143,7 +144,7 @@ export class ProjectMemberRepository extends Repository<ProjectMember> {
     }
 
     const member: Omit<ProjectMember, 'docType'> = {
-      id: `member_${projectId}_${userId}_${Date.now()}`,
+      id: randomUUID(),
       client_name: clientName,
       slug: projectSlug,
       projectId,
@@ -198,8 +199,7 @@ export class ProjectMemberRepository extends Repository<ProjectMember> {
   /**
    * Check if project has at least one owner
    */
-  async hasOwners(
-    projectId: string,
+  async hasOwners(    
     clientName: string,
     projectSlug: string
   ): Promise<boolean> {
@@ -210,8 +210,7 @@ export class ProjectMemberRepository extends Repository<ProjectMember> {
   /**
    * Get member count for a project
    */
-  async getMemberCount(
-    projectId: string,
+  async getMemberCount(    
     clientName: string,
     projectSlug: string
   ): Promise<number> {

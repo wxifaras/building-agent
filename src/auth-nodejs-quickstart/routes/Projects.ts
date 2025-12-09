@@ -4,6 +4,7 @@ import { ProjectRepository } from '../repositories/ProjectRepository';
 import { ProjectMemberRepository } from '../repositories/ProjectMemberRepository';
 import { verifyJWT, requireProjectAccess, AuthRequest } from '../utils/auth/AuthMiddleware';
 import { getCachedUserProjects } from '../utils/cache/CacheHelpers';
+import { randomUUID } from 'crypto';
 
 export function initProjectRoutes(container: Container) {
   const router = Router();
@@ -34,7 +35,7 @@ export function initProjectRoutes(container: Container) {
       const authReq = req as AuthRequest;
       const projectData = req.body;
       const userId = authReq.user.userId;
-      const userEmail = authReq.user.email || authReq.user.preferred_username || 'unknown';
+      const userEmail = authReq.user.email || 'unknown';
 
       // Basic validation
       if (!projectData.client_name || !projectData.slug || !projectData.name || !projectData.projectNumber) {
@@ -72,10 +73,7 @@ export function initProjectRoutes(container: Container) {
         userId: userId,
         email: userEmail,
         role: 'owner',
-        name: authReq.user.name || 'Unknown',
-        invitedBy: 'system',
-        invitedAt: new Date().toISOString(),
-        status: 'active'
+        userName: authReq.user.name || 'Unknown'
       });
 
       res.status(201).json(createdProject);

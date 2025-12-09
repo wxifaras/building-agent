@@ -37,17 +37,26 @@ This project demonstrates a secure Node.js/Express backend using **Azure Cosmos 
 
 ### B. Entra ID (App Registration)
 1.  Go to **Microsoft Entra ID** > **App registrations** > **New registration**.
-2.  **Name**: `NodeAuthQuickstart` (or similar).
+2.  **Name**: `AuthQuickstart` (or similar).
 3.  **Supported account types**: "Accounts in this organizational directory only" (Single Tenant).
 4.  **Redirect URI**: Select **Single-page application (SPA)** and enter `http://localhost:3000` (or your frontend URL).
 5.  Click **Register**.
 
-#### Configure Token
+#### Expose an API
 1.  Go to **Expose an API**.
-2.  **Set** the Application ID URI (accept the default `api://<client-id>`).
-3.  **Scopes**: You can skip creating a custom scope if you use the `.default` scope on the client side.
-    *   Client Scope to request: `api://<client-id>/.default`
-    *   This will issue a valid token for your API audience.
+2.  Click **Set** next to Application ID URI and accept the default `api://<client-id>`.
+3.  Click **Add a scope**:
+    *   **Scope name**: `access`
+    *   **Who can consent**: `Admins and users`
+    *   **Admin consent display name**: `Access as Admin`
+    *   **Admin consent description**: `Access as Admin`
+    *   **User consent display name**: `Access as User`
+    *   **User consent description**: `Access as User`
+    *   **State**: `Enabled`
+4.  Click **Add scope**.
+
+#### Configure Token
+*   Client can request the `access` scope: `api://<client-id>/access`
 
 ---
 
