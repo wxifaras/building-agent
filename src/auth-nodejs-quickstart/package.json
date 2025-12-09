@@ -1,0 +1,30 @@
+{
+  "name": "auth-quickstart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node app.ts",
+    "setup": "ts-node scripts/SetupCosmos.ts",
+    "seed": "ts-node scripts/SeedCosmos.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.10.1"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^4.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "jwks-rsa": "^3.2.0",
+    "redis": "^5.10.0"
+  }
+}
