@@ -1,8 +1,8 @@
 {
-  "name": "auth-quickstart",
+  "name": "auth-nodejs-quickstart",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
     "start": "ts-node app.ts",
     "setup": "ts-node scripts/SetupCosmos.ts",
