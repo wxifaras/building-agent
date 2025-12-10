@@ -8,6 +8,8 @@ import { initHealthRoutes } from './routes/HealthCheck';
 import { CacheFactory } from './utils/cache/CacheFactory';
 import { setCacheInstance, getCacheStats } from './utils/cache/CacheHelpers';
 import { debugTokenMiddleware } from './utils/auth/JWTValidation';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
@@ -66,6 +68,13 @@ async function startServer() {
     const container = database.container(containerId);
     console.log('✓ Cosmos DB initialized');
 
+    // Swagger Documentation
+    console.log('📖 Setting up Swagger documentation...');
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+      customCss: '.swagger-ui .topbar { display: none }',
+      customSiteTitle: 'Project Management API',
+    }));
+    
     // Initialize middleware and routes
     initAuthMiddleware(container);
 

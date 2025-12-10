@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { Container } from '@azure/cosmos';
-import { validateAccessToken, isTokenExpired } from './JWTValidation';
+import { validateAccessToken } from './JWTValidation';
 import { ProjectMemberRepository } from '../../repositories/ProjectMemberRepository';
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { getCachedProjectAccess } from '../cache/CacheHelpers';
-import { Project } from '../../models/Project';
 import { ProjectRole, TokenUser } from '../../models/ProjectMember';
 
 export interface AuthRequest extends Request {
@@ -41,21 +40,13 @@ export async function verifyJWT(
 
     const token = authHeader.substring(7); // Remove 'Bearer '
 
-    // Quick check if token is expired (without full verification)
-    if (isTokenExpired(token)) {
-      return res.status(401).json({ 
-        error: 'token_expired',
-        message: 'Your session has expired. Please sign in again.'
-      });
-    }
-
-    // Validate token with signature verification
+    // Validate token with signature verification (includes expiration check)
     const tokenPayload = await validateAccessToken(token);
 
     // Extract user info from token
     const user: TokenUser = {
       userId: tokenPayload.oid,
-      email: tokenPayload.email || tokenPayload.preferred_username || '',
+      email: tokenPayload.upn || tokenPayload.email || tokenPayload.unique_name || '',
       name: tokenPayload.name || 'Unknown User',
       tenantId: tokenPayload.tid
     };

@@ -34,23 +34,32 @@ async function seed() {
   }
 
   // Parse arguments (support both flag-based and positional)
-  // When run via npm, args come as positional: [script, file, arg1, arg2]
+  // When run via npm, args come as positional: [script, file, arg1, arg2, arg3]
   const ownerId = getArg('--owner-id', 2);
   const ownerEmail = getArg('--owner-email', 3);
+  const ownerName = getArg('--owner-name', 4);
 
   if (!ownerId) {
     console.error('Error: --owner-id is required.');
-    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email>');
+    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email> --owner-name <name>');
     console.log('\nExample:');
-    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com"');
+    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com" --owner-name "John Doe"');
     process.exit(1);
   }
 
   if (!ownerEmail) {
     console.error('Error: --owner-email is required.');
-    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email>');
+    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email> --owner-name <name>');
     console.log('\nExample:');
-    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com"');
+    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com" --owner-name "John Doe"');
+    process.exit(1);
+  }
+
+  if (!ownerName) {
+    console.error('Error: --owner-name is required.');
+    console.log('Usage: npm run seed -- --owner-id <id> --owner-email <email> --owner-name <name>');
+    console.log('\nExample:');
+    console.log('  npm run seed -- --owner-id "your-object-id" --owner-email "you@example.com" --owner-name "John Doe"');
     process.exit(1);
   }
 
@@ -123,13 +132,13 @@ async function seed() {
 
     // 2. Add Owner
     if (ownerId) {
-      console.log(`Adding owner: ${ownerEmail} (${ownerId})...`);
+      console.log(`Adding owner: ${ownerName} - ${ownerEmail} (${ownerId})...`);
       try {
         const member = await memberRepo.addMember(
           project.id,
           ownerId,
           ownerEmail,
-          'Owner User',
+          ownerName,
           'owner',
           project.client_name,
           project.slug

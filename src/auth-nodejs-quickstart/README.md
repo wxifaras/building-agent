@@ -58,6 +58,53 @@ This project demonstrates a secure Node.js/Express backend using **Azure Cosmos 
 #### Configure Token
 *   Client can request the `access` scope: `api://<client-id>/access`
 
+### C. Azure Managed Redis (Optional)
+
+For production environments, use Azure Managed Redis instead of in-memory caching. Azure Managed Redis is built on Redis Enterprise and provides superior performance, reliability, and Microsoft Entra ID authentication.
+
+1.  **Create Azure Managed Redis instance**:
+    ```bash
+    az managed-redis create \
+      --name <your-redis-name> \
+      --resource-group <your-resource-group> \
+      --location <region> \
+      --sku Balanced \
+      --sku-capacity B1
+    ```
+    
+    **SKU Options**:
+    - `Memory Optimized` (M) - Best for memory-intensive workloads (8:1 memory-to-vCPU ratio)
+    - `Balanced` (B) - Balanced memory and compute (4:1 ratio) - **Recommended for most workloads**
+    - `Compute Optimized` (X) - Maximum throughput (2:1 ratio)
+    - `Flash Optimized` (F) - Cost-effective with NVMe storage (Preview)
+
+2.  **Assign Redis Data Contributor Access Policy**:
+    
+    Get your user's Object ID:
+    ```bash
+    az ad signed-in-user show --query id -o tsv
+    ```
+    
+    Assign data access:
+    ```bash
+    az managed-redis access-policy-assignment create \
+      --resource-group <your-resource-group> \
+      --cache-name <your-redis-name> \
+      --access-policy-assignment-name "MyUserAccess" \
+      --access-policy-name "Data Contributor" \
+      --object-id <your-object-id> \
+      --object-id-alias "YourAlias"
+    ```
+
+3.  **Update your `.env` file**:
+    ```env
+    CACHE_ENABLED=true
+    CACHE_TYPE=redis
+    REDIS_URL=<your-redis-name>.redis.azure.net
+    ```
+
+**Note**: Azure Managed Redis uses Microsoft Entra ID authentication by default. For local development, the app uses `DefaultAzureCredential` which authenticates using your `az login` session. For production deployments, use Managed Identity.
+
 ---
 
 ## 2. Local Configuration
@@ -111,9 +158,18 @@ Before running the app, you must create the Database and Container. We use a scr
 Populate the database with a sample project and user.
 
 ```bash
-npm run seed -- --owner-id <your-entra-object-id>
+npm run seed -- --owner-id <your-entra-object-id> --owner-email <your-email> --owner-name "Your Name"
 ```
-*   Replace `<your-entra-object-id>` with your actual User Object ID from Entra ID.
+*   Replace `<your-entra-object-id>` with your actual User Object ID from Entra ID (the `oid` claim from your token).
+*   Replace `<your-email>` with your email address (the `upn` or `email` claim from your token).
+*   Replace `"Your Name"` with your display name (the `name` claim from your token).
+
+**Example:**
+```bash
+npm run seed -- --owner-id "8634b9ec-0ff8-4f23-a108-3b78989ece44" --owner-email "admin@contoso.com" --owner-name "John Doe"
+```
+
+**Tip:** You can get these values from your JWT token at https://jwt.ms by signing in and viewing the decoded token claims.
 
 ---
 
@@ -128,14 +184,43 @@ The server will start on `http://localhost:3001`.
 
 ## 6. Testing
 
-### Using Real Azure Tokens
-1.  Use a tool like **Bruno** or **Postman**.
-2.  Configure OAuth 2.0 Authorization Code Flow (PKCE).
-    *   **Auth URL**: `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/authorize`
-    *   **Token URL**: `https://login.microsoftonline.com/<tenant-id>/oauth2/v2.0/token`
-    *   **Client ID**: `<your-client-id>`
-    *   **Scope**: `api://<client-id>/.default`
-3.  Get the token and call the API.
+### Using Swagger UI
+
+The easiest way to test the API is using the built-in Swagger documentation:
+
+1.  Start the server:
+    ```bash
+    npm run dev
+    ```
+2.  Open your browser to http://localhost:3001/api-docs
+3.  Get an access token:
+    *   Open the Next.js frontend at http://localhost:3000 (see `../auth-reactmsal-quickstart`)
+    *   Sign in and click "Get Token & Copy"
+    *   Or get a token from https://jwt.ms
+4.  Authenticate in Swagger:
+    *   Click the **Authorize** button (green lock icon)
+    *   Enter your token in the format: `Bearer <your-token>`
+    *   Click **Authorize**
+5.  Test endpoints directly in the Swagger UI
+
+### Using the Next.js Frontend
+
+You can also test the API using the included Next.js frontend application with MSAL authentication:
+
+1.  Navigate to the Next.js app directory:
+    ```bash
+    cd ../auth-reactmsal-quickstart
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Configure the app with your Entra ID settings (see the app's README).
+4.  Start the app:
+    ```bash
+    npm run dev
+    ```
+5.  The app will handle authentication and provide tokens for API testing.
 
 ---
 

@@ -5,7 +5,8 @@ import jwksClient, { SigningKey } from 'jwks-rsa';
 export interface ValidatedTokenPayload extends JwtPayload {
   oid: string;        // Entra Object ID (user's unique ID)
   email?: string;
-  preferred_username?: string;
+  unique_name?: string; // Unique name claim (fallback for email)
+  upn?: string;       // User Principal Name
   name?: string;
   tid: string;        // Tenant ID
   aud: string;        // Audience
@@ -84,7 +85,7 @@ export async function validateAccessToken(token: string): Promise<ValidatedToken
         `https://sts.windows.net/${process.env.ENTRA_TENANT_ID}/`
       ],
       algorithms: ['RS256'],
-      clockTolerance: 5 // 5 seconds
+      clockTolerance: 5 // Allow 5 seconds tolerance for clock skew
     }) as unknown as ValidatedTokenPayload;
 
     // Validate required claims
@@ -108,6 +109,21 @@ export async function validateAccessToken(token: string): Promise<ValidatedToken
     }
     throw error;
   }
+}
+
+/**
+ * Extract email from token payload
+ * Tries upn, then email, then unique_name as fallback
+ */
+export function getEmailFromToken(payload: ValidatedTokenPayload): string | undefined {
+  return payload.upn || payload.email || payload.unique_name;
+}
+
+/**
+ * Extract UPN (User Principal Name) from token payload
+ */
+export function getUpnFromToken(payload: ValidatedTokenPayload): string | undefined {
+  return payload.upn;
 }
 
 /**
@@ -135,6 +151,22 @@ export function isTokenExpired(token: string): boolean {
 }
 
 /**
+ * Check if token is expired or about to expire
+ * @param token - JWT token to check
+ * @param bufferSeconds - Time in seconds before expiration to consider token invalid (default: 60)
+ * @returns true if token is expired or will expire within the buffer period
+ */
+export function isTokenExpiredOrExpiring(token: string, bufferSeconds: number = 60): boolean {
+  const expiration = getTokenExpiration(token);
+  if (!expiration) return true;
+  
+  const now = new Date();
+  const bufferTime = new Date(now.getTime() + (bufferSeconds * 1000));
+  
+  return expiration < bufferTime;
+}
+
+/**
  * Decode token without verification (for debugging only)
  */
 export function decodeToken(token: string): any {
@@ -159,7 +191,8 @@ export function debugToken(token: string): void {
     console.log('Header:', decoded.header);
     console.log('\nPayload:');
     console.log('  oid (userId):', decoded.payload.oid);
-    console.log('  email:', decoded.payload.email || decoded.payload.preferred_username);
+    console.log('  upn:', decoded.payload.upn);
+    console.log('  email:', decoded.payload.email || decoded.payload.unique_name);
     console.log('  name:', decoded.payload.name);
     console.log('  tid (tenantId):', decoded.payload.tid);
     console.log('  aud (audience):', decoded.payload.aud);

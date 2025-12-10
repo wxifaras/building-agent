@@ -1,9 +1,8 @@
-// utils/cache/CacheFactory.ts
 import { ICache } from './CacheInterface';
 import { RedisCache } from './RedisCache';
 import { MemoryCache } from './MemoryCache';
 import { NoOpCache } from './NoOpCache';
-import { cacheConfig } from '../../config/CacheConfig';
+import { cacheConfig } from './CacheConfig';
 
 export class CacheFactory {
   static async createCache(): Promise<ICache> {
@@ -16,12 +15,12 @@ export class CacheFactory {
 
     switch (cacheConfig.type) {
       case 'redis':
-        if (!cacheConfig.redisUrl) {
-          console.warn('⚠️  Redis URL not configured, falling back to memory cache');
+        if (!cacheConfig.redisHost) {
+          console.warn('⚠️  Redis host not configured, falling back to memory cache');
           cache = new MemoryCache();
         } else {
-          console.log('📦 Initializing Redis cache...');
-          cache = new RedisCache(cacheConfig.redisUrl);
+          console.log('📦 Initializing Azure Redis Enterprise with Entra ID authentication...');
+          cache = new RedisCache(cacheConfig.redisHost, cacheConfig.redisPort, cacheConfig.redisObjectId);
         }
         break;
 

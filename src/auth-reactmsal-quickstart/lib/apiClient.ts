@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 export interface ApiResponse<T = any> {
   data?: T;
@@ -21,18 +21,22 @@ export const apiClient = {
   async callApi<T = any>(
     endpoint: string,
     accessToken: string,
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
     body?: any
   ): Promise<ApiResponse<T>> {
     try {
       const config: AxiosRequestConfig = {
         method,
         url: endpoint,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
         data: body,
       };
+
+      // Only add Authorization header if token is provided
+      if (accessToken) {
+        config.headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+      }
 
       const response = await axiosInstance.request<T>(config);
 
@@ -44,34 +48,36 @@ export const apiClient = {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<any>;
         return {
-          error: axiosError.response?.data?.error || 
-                 axiosError.response?.data?.message || 
-                 axiosError.message || 
-                 `Request failed with status ${axiosError.response?.status}`,
-          status: axiosError.response?.status || 0,
+          error: axiosError.response?.data?.error || axiosError.message,
+          status: axiosError.response?.status || 500,
         };
       }
+      
       return {
-        error: (error as Error).message || 'Network error',
-        status: 0,
+        error: 'Unknown error occurred',
+        status: 500,
       };
     }
   },
 
   // Convenience methods
-  async get<T = any>(endpoint: string, accessToken: string) {
+  get<T = any>(endpoint: string, accessToken: string): Promise<ApiResponse<T>> {
     return this.callApi<T>(endpoint, accessToken, 'GET');
   },
 
-  async post<T = any>(endpoint: string, accessToken: string, body: any) {
+  post<T = any>(endpoint: string, accessToken: string, body: any): Promise<ApiResponse<T>> {
     return this.callApi<T>(endpoint, accessToken, 'POST', body);
   },
 
-  async put<T = any>(endpoint: string, accessToken: string, body: any) {
+  put<T = any>(endpoint: string, accessToken: string, body: any): Promise<ApiResponse<T>> {
     return this.callApi<T>(endpoint, accessToken, 'PUT', body);
   },
 
-  async delete<T = any>(endpoint: string, accessToken: string) {
+  patch<T = any>(endpoint: string, accessToken: string, body: any): Promise<ApiResponse<T>> {
+    return this.callApi<T>(endpoint, accessToken, 'PATCH', body);
+  },
+
+  delete<T = any>(endpoint: string, accessToken: string): Promise<ApiResponse<T>> {
     return this.callApi<T>(endpoint, accessToken, 'DELETE');
   },
 };

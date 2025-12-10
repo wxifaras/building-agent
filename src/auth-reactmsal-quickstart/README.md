@@ -1,13 +1,15 @@
-# React MSAL & Entra ID Quickstart
+# Next.js MSAL & Entra ID Quickstart
 
-A minimal React TypeScript application using **MSAL.js** (Microsoft Authentication Library) to authenticate users with **Microsoft Entra ID** and retrieve access tokens for API calls.
+A Next.js 15 application using **MSAL.js** (Microsoft Authentication Library) to authenticate users with **Microsoft Entra ID** and retrieve access tokens for API calls.
 
 ## Features
 
 *   🔐 **Microsoft Entra ID Authentication** using MSAL.js
 *   🎫 **Access Token Retrieval** with automatic clipboard copy
-*   ⚛️ **React with TypeScript**
-*   🎨 **Clean, minimal UI** with debugging capabilities
+*   ⚡ **Next.js 15 with App Router**
+*   📘 **TypeScript** support
+*   🎨 **Modern UI** with CSS Modules
+*   🔄 **Migrated from Create React App**
 
 ---
 
@@ -22,7 +24,7 @@ A minimal React TypeScript application using **MSAL.js** (Microsoft Authenticati
 
 ### Single App Registration Architecture
 
-This project uses **one App Registration** that serves both the React frontend (SPA) and your Node.js API backend. This is the recommended approach when both components are part of the same application and managed by the same team.
+This project uses **one App Registration** that serves both the Next.js frontend (SPA) and your Node.js API backend. This is the recommended approach when both components are part of the same application and managed by the same team.
 
 ### Create Entra ID App Registration
 
@@ -57,44 +59,47 @@ This project uses **one App Registration** that serves both the React frontend (
 npm install
 ```
 
-### Create `.env` File
+### Create `.env.local` File
 
 Copy the example environment file and update with your values:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-Update the `.env` file with your Azure configuration:
+Update the `.env.local` file with your Azure configuration:
 
 ```env
-# Entra ID Configuration (same client ID for both React and API)
-REACT_APP_ENTRA_CLIENT_ID=<your-client-id>
-REACT_APP_ENTRA_TENANT_ID=<your-tenant-id>
-REACT_APP_REDIRECT_URI=http://localhost:3000
+# Entra ID Configuration (Next.js uses NEXT_PUBLIC_ prefix)
+NEXT_PUBLIC_ENTRA_CLIENT_ID=<your-client-id>
+NEXT_PUBLIC_ENTRA_TENANT_ID=<your-tenant-id>
+NEXT_PUBLIC_REDIRECT_URI=http://localhost:3000
 
 # API Scope (using the same client ID since it's one app registration)
-REACT_APP_API_SCOPE=api://<your-client-id>/access
+NEXT_PUBLIC_API_SCOPE=api://<your-client-id>/access
+
+# Node.js API URL
+NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
 **Important:**
 *   Replace `<your-client-id>` with your App Registration's **Application (client) ID**
 *   Replace `<your-tenant-id>` with your **Directory (tenant) ID**
-*   The API scope uses the **same client ID** because React and the API share one app registration
-*   Variables **must** start with `REACT_APP_` for Create React App to expose them
+*   The API scope uses the **same client ID** because Next.js app and the API share one app registration
+*   Variables **must** start with `NEXT_PUBLIC_` for Next.js to expose them to the browser
 
 ### MSAL Configuration
 
-The MSAL configuration is in `src/authConfig.ts`:
+The MSAL configuration is in `lib/authConfig.ts`:
 
 ```typescript
 import { Configuration, PopupRequest } from "@azure/msal-browser";
 
 export const msalConfig: Configuration = {
   auth: {
-    clientId: process.env.REACT_APP_ENTRA_CLIENT_ID!,
-    authority: `https://login.microsoftonline.com/${process.env.REACT_APP_ENTRA_TENANT_ID}`,
-    redirectUri: process.env.REACT_APP_REDIRECT_URI!,
+    clientId: process.env.NEXT_PUBLIC_ENTRA_CLIENT_ID!,
+    authority: `https://login.microsoftonline.com/${process.env.NEXT_PUBLIC_ENTRA_TENANT_ID}`,
+    redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI || (typeof window !== 'undefined' ? window.location.origin : ''),
   },
   cache: {
     cacheLocation: "localStorage",
@@ -103,7 +108,7 @@ export const msalConfig: Configuration = {
 };
 
 export const loginRequest: PopupRequest = {
-  scopes: [process.env.REACT_APP_API_SCOPE!],
+  scopes: [process.env.NEXT_PUBLIC_API_SCOPE!],
 };
 ```
 
@@ -111,11 +116,20 @@ export const loginRequest: PopupRequest = {
 
 ## 3. Running the App
 
+### Development Mode
+
 ```bash
-npm start
+npm run dev
 ```
 
 The app will open at [http://localhost:3000](http://localhost:3000).
+
+### Production Build
+
+```bash
+npm run build
+npm start
+```
 
 ### How to Use
 
@@ -123,7 +137,7 @@ The app will open at [http://localhost:3000](http://localhost:3000).
 2.  Sign in with your Microsoft account
 3.  Click **"Get Token & Copy"**
 4.  The access token is automatically copied to your clipboard
-5.  Use the token in your API testing tools (Bruno, Postman, etc.)
+5.  Use the token in your API testing tools or with your backend API
 
 ---
 
@@ -131,28 +145,26 @@ The app will open at [http://localhost:3000](http://localhost:3000).
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
-Runs the app in the development mode.\
+Runs the app in development mode with hot-reload.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The page will automatically reload when you make changes.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `.next` folder.\
+It optimizes the build for the best performance with automatic code splitting, image optimization, and more.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Runs the production build created by `npm run build`.\
+Use this to test the production version locally.
+
+### `npm run lint`
+
+Runs Next.js ESLint to check for code quality issues.
 
 ### `npm run eject`
 
@@ -164,8 +176,27 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Project Structure
+
+```
+auth-reactmsal-quickstart/
+├── app/
+│   ├── components/
+│   │   └── MsalProvider.tsx    # MSAL provider wrapper
+│   ├── globals.css              # Global styles
+│   ├── layout.tsx               # Root layout
+│   ├── page.tsx                 # Home page
+│   └── page.module.css          # Page styles
+├── lib/
+│   ├── authConfig.ts            # MSAL configuration
+│   └── apiClient.ts             # API client utilities
+├── next.config.ts               # Next.js configuration
+├── tsconfig.json                # TypeScript configuration
+└── package.json
+```
+
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Next.js Documentation](https://nextjs.org/docs)
+- [MSAL.js Documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js)
+- [Azure AD Documentation](https://docs.microsoft.com/azure/active-directory/)

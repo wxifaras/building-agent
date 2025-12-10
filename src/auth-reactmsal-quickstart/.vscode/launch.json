@@ -2,30 +2,28 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch React App in Chrome",
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/src",
-      "sourceMaps": true,
-      "preLaunchTask": "npm: start"
+      "webRoot": "${workspaceFolder}"
     },
     {
-      "name": "Launch React App in Edge",
-      "type": "msedge",
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
       "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/src",
-      "sourceMaps": true,
-      "preLaunchTask": "npm: start"
-    },
-    {
-      "name": "Attach to Chrome",
-      "type": "chrome",
-      "request": "attach",
-      "port": 9222,
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/src"
+      "command": "npm run dev",
+      "serverReadyAction": {
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
     }
   ]
 }

@@ -13,7 +13,37 @@ export function initProjectMemberRoutes(container: Container) {
   return router;
 }
 
-// GET /api/projects/:client_name/:slug/members
+/**
+ * @swagger
+ * /api/projects/{client_name}/{slug}/members:
+ *   get:
+ *     summary: Get all members of a project
+ *     tags: [Project Members]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: client_name
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of project members
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ProjectMember'
+ *       403:
+ *         description: Insufficient permissions (owner role required)
+ */
 router.get('/projects/:client_name/:slug/members',
   ...requireProjectAccess('owner') as any,
   async (req: Request, res: Response) => {
@@ -34,7 +64,56 @@ router.get('/projects/:client_name/:slug/members',
   }
 );
 
-// POST /api/projects/:client_name/:slug/members
+/**
+ * @swagger
+ * /api/projects/{client_name}/{slug}/members:
+ *   post:
+ *     summary: Add a member to a project
+ *     tags: [Project Members]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: client_name
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - userId
+ *               - email
+ *               - role
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               userName:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [viewer, editor, owner]
+ *     responses:
+ *       201:
+ *         description: Member added successfully
+ *       400:
+ *         description: Missing required fields
+ *       403:
+ *         description: Insufficient permissions
+ *       409:
+ *         description: Member already exists
+ */
 router.post('/projects/:client_name/:slug/members',
   ...requireProjectAccess('owner') as any,
   async (req: Request, res: Response) => {
@@ -80,7 +159,58 @@ router.post('/projects/:client_name/:slug/members',
   }
 );
 
-// PATCH /api/projects/:client_name/:slug/members/:userId
+/**
+ * @swagger
+ * /api/projects/{client_name}/{slug}/members/{userId}:
+ *   patch:
+ *     summary: Update a member's role
+ *     tags: [Project Members]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: client_name
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The Entra ID object ID (oid) of the user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [viewer, editor, owner]
+ *                 description: The new role to assign to the member
+ *     responses:
+ *       200:
+ *         description: Member role updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProjectMember'
+ *       400:
+ *         description: Invalid role
+ *       403:
+ *         description: Insufficient permissions (owner role required)
+ *       404:
+ *         description: Member not found
+ */
 router.patch('/projects/:client_name/:slug/members/:userId',
   ...requireProjectAccess('owner') as any,
   async (req: Request, res: Response) => {
@@ -114,7 +244,41 @@ router.patch('/projects/:client_name/:slug/members/:userId',
   }
 );
 
-// DELETE /api/projects/:client_name/:slug/members/:userId
+/**
+ * @swagger
+ * /api/projects/{client_name}/{slug}/members/{userId}:
+ *   delete:
+ *     summary: Remove a member from a project
+ *     tags: [Project Members]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: client_name
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The Entra ID object ID (oid) of the user to remove
+ *     responses:
+ *       204:
+ *         description: Member removed successfully
+ *       400:
+ *         description: Cannot remove the last owner from the project
+ *       403:
+ *         description: Insufficient permissions (owner role required)
+ *       404:
+ *         description: Member not found
+ */
 router.delete('/projects/:client_name/:slug/members/:userId',
   ...requireProjectAccess('owner') as any,
   async (req: Request, res: Response) => {
