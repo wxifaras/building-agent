@@ -1,15 +1,15 @@
 # Next.js MSAL & Entra ID Quickstart
 
-A Next.js 15 application using **MSAL.js** (Microsoft Authentication Library) to authenticate users with **Microsoft Entra ID** and retrieve access tokens for API calls.
+A Next.js 15 application using **MSAL.js** (Microsoft Authentication Library) to authenticate users with **Microsoft Entra ID**, retrieve access tokens for API calls, and securely call the Node.js backend API from the browser.
 
 ## Features
 
 *   🔐 **Microsoft Entra ID Authentication** using MSAL.js
-*   🎫 **Access Token Retrieval** with automatic clipboard copy
+*   🎫 **Access Token Retrieval** with automatic clipboard copy and display
 *   ⚡ **Next.js 15 with App Router**
 *   📘 **TypeScript** support
 *   🎨 **Modern UI** with CSS Modules
-*   🔄 **Migrated from Create React App**
+*   🔄 **Migrated from Create React App** and wired to the auth-nodejs-quickstart backend
 
 ---
 

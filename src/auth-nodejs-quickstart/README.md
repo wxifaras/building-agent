@@ -4,11 +4,12 @@ This project demonstrates a secure Node.js/Express backend using **Azure Cosmos 
 
 ## Features
 
-*   **Authentication**: Validates Azure AD JWT Access Tokens (RS256).
-*   **Authorization**: Role-based access control (RBAC) using custom logic.
-*   **Database**: Azure Cosmos DB with Hierarchical Partition Keys (`/client_name`, `/slug`).
-*   **Security**: Uses `DefaultAzureCredential` (Managed Identity) - No keys in code!
-*   **Caching**: In-memory or Redis caching layer.
+*   **Authentication**: Validates Microsoft Entra ID JWT access tokens (RS256).
+*   **Authorization**: Role-based access control (RBAC) based on project membership and roles (Owner, Editor, Member).
+*   **Database**: Azure Cosmos DB for NoSQL with Hierarchical Partition Keys (`/client_name`, `/slug`).
+*   **Security**: Uses `DefaultAzureCredential` (Managed Identity / `az login`) – no keys or connection strings in code.
+*   **Caching**: Pluggable in-memory or Azure Managed Redis caching layer with optional `/api/cache/stats` diagnostics in development.
+*   **API Docs**: Built-in Swagger UI at `/api-docs` for interactive testing.
 
 ---
 
@@ -195,8 +196,7 @@ The easiest way to test the API is using the built-in Swagger documentation:
 2.  Open your browser to http://localhost:3001/api-docs
 3.  Get an access token:
     *   Open the Next.js frontend at http://localhost:3000 (see `../auth-reactmsal-quickstart`)
-    *   Sign in and click "Get Token & Copy"
-    *   Or get a token from https://jwt.ms
+    *   Sign in and click "Get Token & Copy"    
 4.  Authenticate in Swagger:
     *   Click the **Authorize** button (green lock icon)
     *   Enter your token in the format: `Bearer <your-token>`
@@ -231,10 +231,10 @@ You can also test the API using the included Next.js frontend application with M
 | `GET` | `/api/health` | Health check | Public |
 | `GET` | `/api/projects` | List user's projects | Auth Required |
 | `POST` | `/api/projects` | Create a new project | Auth Required |
-| `GET` | `/api/projects/:client/:slug` | Get project details | Project Member |
-| `PUT` | `/api/projects/:client/:slug` | Update project | Editor/Owner |
-| `DELETE` | `/api/projects/:client/:slug` | Delete project | Owner |
-| `GET` | `/api/projects/:client/:slug/members` | List project members | Owner |
-| `POST` | `/api/projects/:client/:slug/members` | Add project member | Owner |
-| `PATCH` | `/api/projects/:client/:slug/members/:userId` | Update member role | Owner |
-| `DELETE` | `/api/projects/:client/:slug/members/:userId` | Remove member | Owner |
+| `GET` | `/api/projects/:client_name/:slug` | Get project details | Project Member |
+| `PUT` | `/api/projects/:client_name/:slug` | Update project | Editor/Owner |
+| `DELETE` | `/api/projects/:client_name/:slug` | Delete project | Owner |
+| `GET` | `/api/projects/:client_name/:slug/members` | List project members | Owner |
+| `POST` | `/api/projects/:client_name/:slug/members` | Add project member | Owner |
+| `PATCH` | `/api/projects/:client_name/:slug/members/:userId` | Update member role | Owner |
+| `DELETE` | `/api/projects/:client_name/:slug/members/:userId` | Remove member | Owner |
