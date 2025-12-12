@@ -38,9 +38,15 @@ export function initHealthRoutes(container: Container) {
    *         description: Service unavailable
    */
   router.get('/health', async (req, res) => {
+    const logger = (req as any).logger;
+    
     try {
+      logger.debug('Health check - checking database connection');
+      
       // Check Cosmos DB connection
       await container.read();
+      
+      logger.debug('Health check - database connected');
       
       res.json({
         status: 'ok',
@@ -48,19 +54,57 @@ export function initHealthRoutes(container: Container) {
         services: {
           database: 'connected',
           api: 'running'
-        }
-      });
-    } catch (error: any) {
-      res.status(503).json({
-        status: 'error',
-        timestamp: new Date().toISOString(),
-        services: {
-          database: 'disconnected',
-          api: 'running'
-        },
-        error: error.message
-      });
+      }
+    });
+  } catch (error: any) {
+    logger.error('Health check failed', error);
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      services: {
+        database: 'disconnected',
+        api: 'running'
+      },
+      error: error.message
+    });
+  }
+  });
+
+  /**
+   * @swagger
+   * /api/test-logging:
+   *   get:
+   *     summary: Test logging and Application Insights
+   *     tags: [Health]
+   *     security: []
+   *     responses:
+   *       200:
+   *         description: Logging test completed
+   */
+  router.get('/test-logging', async (req, res) => {
+    const logger = (req as any).logger;
+    
+    logger.info('Testing info log', { testData: 'sample info', userId: 'test-user' });
+    logger.warn('Testing warning log', { testData: 'sample warning', level: 'medium' });
+    logger.debug('Testing debug log', { testData: 'sample debug' });
+    
+    // Test error logging with a mock error
+    try {
+      throw new Error('This is a test error for Application Insights');
+    } catch (error) {
+      logger.error('Testing error log', error, { testData: 'sample error context' });
     }
+    
+    res.json({
+      status: 'ok',
+      message: 'Logging test completed. Check console output and Application Insights.',
+      logs: [
+        'info - logged',
+        'warn - logged',
+        'debug - logged (dev only)',
+        'error - logged with exception'
+      ]
+    });
   });
 
   return router;

@@ -1,3 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+// Initialize telemetry FIRST (before importing Express or other instrumented libraries)
+import { initTelemetry } from './utils/telemetry/telemetry';
+initTelemetry();
+
 import express from 'express';
 import { CosmosClient } from '@azure/cosmos';
 import { DefaultAzureCredential } from '@azure/identity';
@@ -8,12 +15,10 @@ import { initHealthRoutes } from './routes/HealthCheck';
 import { CacheFactory } from './utils/cache/CacheFactory';
 import { setCacheInstance, getCacheStats } from './utils/cache/CacheHelpers';
 import { debugTokenMiddleware } from './utils/auth/JWTValidation';
+import { telemetryMiddleware } from './utils/telemetry/telemetryMiddleware';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
-import dotenv from 'dotenv';
 import cors from 'cors';
-
-dotenv.config();
 
 const app = express();
 
@@ -27,14 +32,28 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Telemetry middleware (must be after body parser, before routes)
+app.use(telemetryMiddleware);
+
 // Debug Token Middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(debugTokenMiddleware);
 }
 
-// Error handler
-const errorHandler: express.ErrorRequestHandler = (err, req, res, next) => {
-  console.error(err.stack);
+// Error handler middleware
+const errorHandler = (err: any, req: any, res: any, next: any) => {
+  const logger = (req as any).logger;
+  if (logger) {
+    logger.error('Unhandled error', err);
+  } else {
+    console.error('Unhandled error', err, {
+      url: req.url,
+      method: req.method,
+      userAgent: req.get('user-agent') || 'unknown',
+      stack: err.stack
+    });
+  }
+  
   res.status(500).json({ 
     error: 'internal_server_error',
     message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
@@ -44,12 +63,12 @@ const errorHandler: express.ErrorRequestHandler = (err, req, res, next) => {
 async function startServer() {
   try {
     // Initialize Cache
-    console.log('\n📦 Initializing cache system...');
+    console.log('📦 Initializing cache system...');
     const cache = await CacheFactory.createCache();
     setCacheInstance(cache);
     
     // Initialize Cosmos DB
-    console.log('\n🗄️  Initializing Cosmos DB...');
+    console.log('🗄️  Initializing Cosmos DB...');
     
     const endpoint = process.env.COSMOS_ENDPOINT;
     if (!endpoint) {
@@ -101,31 +120,43 @@ async function startServer() {
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => {
       const cacheStats = getCacheStats();
-      console.log(`
-        Server running on port ${PORT}       
-        Environment: ${process.env.NODE_ENV || 'development'}              
-        Cache: ${cacheStats.connected ? '✓ ENABLED' : '✗ DISABLED'}               
-        Type: ${cacheStats.type.padEnd(20)}
-      `);
+      const startupInfo = {
+        port: PORT,
+        environment: process.env.NODE_ENV || 'development',
+        cacheEnabled: cacheStats.connected,
+        cacheType: cacheStats.type
+      };
+      
+      console.log(`Server running on port ${PORT}`, {
+        environment: startupInfo.environment,
+        cache: cacheStats.connected ? 'ENABLED' : 'DISABLED',
+        cacheType: cacheStats.type
+      });
     });
   } catch (error) {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
+    console.error('Failed to start server', error);process.exit(1);
   }
 }
 
 // Graceful shutdown
 async function shutdown() {
-  console.log('\n⏳ Shutting down gracefully...');
+  console.log('⏳ Shutting down gracefully...', {
+    environment: process.env.NODE_ENV || 'development'
+  });
+  
+  // Flush and shutdown telemetry
+
+  
   const cache = require('./utils/cache/cacheHelpers').getCacheInstance();
   if (cache) {
     try {
       await cache.disconnect();
       console.log('✓ Cache disconnected');
     } catch (error) {
-      console.error('❌ Error disconnecting cache:', error);
+      console.error('Error disconnecting cache', error);
     }
   }
+  
   process.exit(0);
 }
 

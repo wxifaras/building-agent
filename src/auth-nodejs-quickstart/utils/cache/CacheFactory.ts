@@ -3,11 +3,14 @@ import { RedisCache } from './RedisCache';
 import { MemoryCache } from './MemoryCache';
 import { NoOpCache } from './NoOpCache';
 import { cacheConfig } from './CacheConfig';
+import { createLogger } from '../telemetry/logger';
+
+const logger = createLogger({ context: 'CacheFactory' });
 
 export class CacheFactory {
   static async createCache(): Promise<ICache> {
     if (!cacheConfig.enabled) {
-      console.log('📦 Cache is disabled');
+      logger.info('📦 Cache is disabled');
       return new NoOpCache();
     }
 
@@ -16,38 +19,47 @@ export class CacheFactory {
     switch (cacheConfig.type) {
       case 'redis':
         if (!cacheConfig.redisHost) {
-          console.warn('⚠️  Redis host not configured, falling back to memory cache');
+          logger.warn('⚠️  Redis host not configured, falling back to memory cache');
           cache = new MemoryCache();
         } else {
-          console.log('📦 Initializing Azure Redis Enterprise with Entra ID authentication...');
-          cache = new RedisCache(cacheConfig.redisHost, cacheConfig.redisPort, cacheConfig.redisObjectId);
+          const authMethod = cacheConfig.redisAccessKey ? 'Access Key' : 'Entra ID';
+          logger.info(`📦 Initializing Azure Redis with ${authMethod} authentication...`);
+          cache = new RedisCache(
+            cacheConfig.redisHost, 
+            cacheConfig.redisPort, 
+            cacheConfig.redisAccessKey
+          );
         }
         break;
 
       case 'memory':
-        console.log('📦 Initializing in-memory cache...');
+        logger.info('📦 Initializing in-memory cache...');
         cache = new MemoryCache();
         break;
 
       case 'none':
-        console.log('📦 Cache disabled via configuration');
+        logger.info('📦 Cache disabled via configuration');
         cache = new NoOpCache();
         break;
 
       default:
-        console.warn(`⚠️  Unknown cache type: ${cacheConfig.type}, falling back to memory cache`);
+        logger.warn(`⚠️  Unknown cache type: ${cacheConfig.type}, falling back to memory cache`);
         cache = new MemoryCache();
     }
 
     try {
       await cache.connect();
-      console.log('✓ Cache initialized successfully');
-      console.log(`  Type: ${cacheConfig.type}`);
-      console.log(`  TTLs: User Projects=${cacheConfig.ttl.userProjects}s, Project Access=${cacheConfig.ttl.projectAccess}s`);
+      logger.info('✓ Cache initialized successfully', { 
+        type: cacheConfig.type,
+        ttls: {
+          userProjects: cacheConfig.ttl.userProjects,
+          projectAccess: cacheConfig.ttl.projectAccess
+        }
+      });
       return cache;
     } catch (error) {
-      console.error('❌ Failed to initialize cache:', error);
-      console.log('📦 Falling back to no-op cache');
+      logger.error('❌ Failed to initialize cache', error as Error);
+      logger.info('📦 Falling back to no-op cache');
       const noOpCache = new NoOpCache();
       await noOpCache.connect();
       return noOpCache;

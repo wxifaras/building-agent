@@ -6,16 +6,23 @@ export class RedisCache implements ICache {
   private client: RedisClientType | null = null;
   private connected: boolean = false;
   private tokenRefreshTimer: NodeJS.Timeout | null = null;
-  private credential: DefaultAzureCredential;
+  private credential: DefaultAzureCredential | null = null;
   private redisHost: string;
   private redisPort: number;
-  private objectId: string;
+  private objectId: string | null = null;
+  private authType: 'entra-id' | 'access-key';
+  private accessKey: string | null = null;
 
-  constructor(host: string, port: number = 10000, objectId?: string) {
+  constructor(host: string, port: number = 10000, accessKey?: string) {
     this.redisHost = host;
     this.redisPort = port;
-    this.objectId = objectId || '';
-    this.credential = new DefaultAzureCredential();
+    this.accessKey = accessKey || null;
+    this.authType = accessKey ? 'access-key' : 'entra-id';
+    
+    // Only initialize credential if using Entra ID auth
+    if (this.authType === 'entra-id') {
+      this.credential = new DefaultAzureCredential();
+    }
   }
 
   private async getEntraToken(): Promise<string> {
@@ -29,13 +36,23 @@ export class RedisCache implements ICache {
     return tokenResponse.token;
   }
 
+  private parseObjectIdFromToken(token: string): string {
+    try {
+      // Decode the JWT token to get the Object ID (oid claim)
+      const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+      return payload.oid || payload.sub;
+    } catch (error) {
+      throw new Error('Failed to parse Object ID from token');
+    }
+  }
+
   private async refreshEntraToken(): Promise<void> {
-    if (!this.client) return;
+    if (!this.client || !this.objectId) return;
 
     try {
       const token = await this.getEntraToken();
-      // Use AUTH command to update the token
-      await this.client.sendCommand(['AUTH', 'default', token]);
+      // Use AUTH command to update the token with the Object ID as username
+      await this.client.sendCommand(['AUTH', this.objectId, token]);
       console.log('📦 Redis: Token refreshed successfully');
     } catch (error) {
       console.error('Failed to refresh Redis token:', error);
@@ -60,29 +77,44 @@ export class RedisCache implements ICache {
 
   async connect(): Promise<void> {
     try {
-      // Get initial token from Entra ID
-      const token = await this.getEntraToken();
-      
-      // For Redis Enterprise with Entra ID, use object ID as username
-      // If no objectId provided, get it from the credential token
-      let username = this.objectId;
-      if (!username) {
-        // Extract from token or use empty for auto-detection
-        username = '';
-      }
-      
-      this.client = createClient({
-        socket: {
-          host: this.redisHost,
-          port: this.redisPort,
-          tls: true,
-          reconnectStrategy: (retries) => Math.min(retries * 50, 500)
-        },
-        username: username || undefined,
-        password: token
-      });
+      if (this.authType === 'access-key') {
+        // Access Key Authentication
+        if (!this.accessKey) {
+          throw new Error('Access key is required for access-key authentication');
+        }
 
-      console.log(`📦 Connecting to Azure Managed Redis with Entra ID: ${this.redisHost}:${this.redisPort}`);
+        this.client = createClient({
+          socket: {
+            host: this.redisHost,
+            port: this.redisPort,
+            tls: true,
+            reconnectStrategy: (retries) => Math.min(retries * 50, 500)
+          },
+          password: this.accessKey
+        });
+
+        console.log(`📦 Connecting to Azure Redis with Access Key: ${this.redisHost}:${this.redisPort}`);
+      } else {
+        // Entra ID Authentication
+        const token = await this.getEntraToken();
+        
+        // Extract Object ID from token to use as username
+        this.objectId = this.parseObjectIdFromToken(token);
+        console.log(`📦 Using Object ID as Redis username: ${this.objectId}`);
+        
+        this.client = createClient({
+          socket: {
+            host: this.redisHost,
+            port: this.redisPort,
+            tls: true,
+            reconnectStrategy: (retries) => Math.min(retries * 50, 500)
+          },
+          username: this.objectId,
+          password: token
+        });
+
+        console.log(`📦 Connecting to Azure Redis with Entra ID: ${this.redisHost}:${this.redisPort}`);
+      }
 
       this.client.on('error', (err) => {
         console.error('Redis Client Error:', err);
@@ -101,8 +133,10 @@ export class RedisCache implements ICache {
 
       await this.client.connect();
 
-      // Start automatic token refresh
-      this.startTokenRefresh();
+      // Start automatic token refresh only for Entra ID auth
+      if (this.authType === 'entra-id') {
+        this.startTokenRefresh();
+      }
     } catch (error) {
       console.error('Failed to connect to Redis:', error);
       this.connected = false;

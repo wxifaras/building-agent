@@ -47,18 +47,30 @@ export function initProjectMemberRoutes(container: Container) {
 router.get('/projects/:client_name/:slug/members',
   ...requireProjectAccess('owner') as any,
   async (req: Request, res: Response) => {
+    const authReq = req as AuthRequest;
+    const { client_name, slug } = req.params;
+    const logger = (req as any).logger;
+    
     try {
-      const authReq = req as AuthRequest;
-      const { client_name, slug } = req.params;
+      logger.info('Fetching project members', { client_name, slug });
       
       const members = await projectMemberRepo.getProjectMembers(
         client_name,
         slug
       );
+      
+      logger.info('Project members fetched', { 
+        client_name,
+        slug,
+        count: members.length 
+      });
 
       res.json(members);
     } catch (error) {
-      console.error('Error fetching project members:', error);
+      logger.error('Failed to fetch project members', error as Error, {
+        client_name,
+        slug
+      });
       res.status(500).json({ error: 'Failed to fetch project members' });
     }
   }
@@ -153,7 +165,7 @@ router.post('/projects/:client_name/:slug/members',
 
       res.status(201).json(member);
     } catch (error: any) {
-      console.error('Error adding project member:', error);
+      (req as any).logger.error('Error adding project member', error);
       res.status(500).json({ error: error.message || 'Failed to add project member' });
     }
   }
@@ -238,7 +250,7 @@ router.patch('/projects/:client_name/:slug/members/:userId',
 
       res.json(updatedMember);
     } catch (error: any) {
-      console.error('Error updating member role:', error);
+      (req as any).logger.error('Error updating member role', error);
       res.status(500).json({ error: error.message || 'Failed to update member role' });
     }
   }
@@ -305,7 +317,7 @@ router.delete('/projects/:client_name/:slug/members/:userId',
 
       res.status(204).send();
     } catch (error: any) {
-      console.error('Error removing member:', error);
+      (req as any).logger.error('Error removing member', error);
       res.status(500).json({ error: error.message || 'Failed to remove member' });
     }
   }

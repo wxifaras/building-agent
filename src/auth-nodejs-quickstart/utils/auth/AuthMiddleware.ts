@@ -5,6 +5,9 @@ import { ProjectMemberRepository } from '../../repositories/ProjectMemberReposit
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { getCachedProjectAccess } from '../cache/CacheHelpers';
 import { ProjectRole, TokenUser } from '../../models/ProjectMember';
+import { createLogger } from '../telemetry/logger';
+
+const logger = createLogger({ context: 'AuthMiddleware' });
 
 export interface AuthRequest extends Request {
   user: TokenUser;
@@ -53,7 +56,7 @@ export async function verifyJWT(
 
     // Log successful authentication (optional, remove in production if too verbose)
     if (process.env.NODE_ENV === 'development') {
-      console.log('✓ Token validated:', {
+      logger.debug('✓ Token validated', {
         userId: user.userId,
         email: user.email,
         name: user.name,
@@ -66,7 +69,7 @@ export async function verifyJWT(
     
     next();
   } catch (error: any) {
-    console.error('JWT verification error:', error.message);
+    logger.error('JWT verification error', error);
     
     if (error.message === 'Token expired') {
       return res.status(401).json({ 
@@ -161,7 +164,7 @@ export async function checkProjectAccess(
 
     if (!access) {
       if (process.env.NODE_ENV === 'development') {
-        console.log('✗ Access denied:', {
+        logger.debug('✗ Access denied', {
           userId: authReq.user.userId,
           email: authReq.user.email,
           projectId,
@@ -180,7 +183,7 @@ export async function checkProjectAccess(
     authReq.userRole = access.role as ProjectRole;
     
     if (process.env.NODE_ENV === 'development') {
-      console.log('✓ Project access granted:', {
+      logger.debug('✓ Project access granted', {
         userId: authReq.user.userId,
         email: authReq.user.email,
         projectId,
@@ -190,7 +193,7 @@ export async function checkProjectAccess(
     
     next();
   } catch (error) {
-    console.error('Authorization error:', error);
+    logger.error('Authorization error', error as Error);
     res.status(500).json({ 
       error: 'authorization_failed',
       message: 'Authorization check failed'

@@ -1,4 +1,7 @@
 import dotenv from 'dotenv';
+import { createLogger } from '../telemetry/logger';
+
+const logger = createLogger({ context: 'CacheConfig' });
 
 // Load environment variables first
 dotenv.config();
@@ -8,7 +11,7 @@ export interface CacheConfig {
   type: 'redis' | 'memory' | 'none';
   redisHost?: string;
   redisPort?: number;
-  redisObjectId?: string;
+  redisAccessKey?: string;
   ttl: {
     user: number;
     projectAccess: number;
@@ -21,7 +24,7 @@ export const cacheConfig: CacheConfig = {
   type: (process.env.CACHE_TYPE as 'redis' | 'memory' | 'none') || 'memory',
   redisHost: process.env.REDIS_HOST,
   redisPort: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 10000,
-  redisObjectId: process.env.REDIS_OBJECT_ID,
+  redisAccessKey: process.env.REDIS_ACCESS_KEY || undefined,
   ttl: {
     user: parseInt(process.env.CACHE_TTL_USER || '3600'),
     projectAccess: parseInt(process.env.CACHE_TTL_PROJECT_ACCESS || '1800'),
@@ -31,6 +34,6 @@ export const cacheConfig: CacheConfig = {
 
 // Validate configuration
 if (cacheConfig.enabled && cacheConfig.type === 'redis' && !cacheConfig.redisHost) {
-  console.warn('⚠️  Redis cache enabled but REDIS_HOST not configured. Falling back to memory cache.');
+  logger.warn('⚠️  Redis cache enabled but REDIS_HOST not configured. Falling back to memory cache.');
   cacheConfig.type = 'memory';
 }

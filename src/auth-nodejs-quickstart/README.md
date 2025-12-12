@@ -79,7 +79,11 @@ For production environments, use Azure Managed Redis instead of in-memory cachin
     - `Compute Optimized` (X) - Maximum throughput (2:1 ratio)
     - `Flash Optimized` (F) - Cost-effective with NVMe storage (Preview)
 
-2.  **Assign Redis Data Contributor Access Policy**:
+2.  **Configure Authentication**:
+    
+    Azure Managed Redis supports two authentication methods:
+    
+    **Option A: Microsoft Entra ID (Recommended)**
     
     Get your user's Object ID:
     ```bash
@@ -96,15 +100,36 @@ For production environments, use Azure Managed Redis instead of in-memory cachin
       --object-id <your-object-id> \
       --object-id-alias "YourAlias"
     ```
-
-3.  **Update your `.env` file**:
+    
+    Update your `.env` file:
     ```env
     CACHE_ENABLED=true
     CACHE_TYPE=redis
-    REDIS_URL=<your-redis-name>.redis.azure.net
+    REDIS_HOST=<your-redis-name>.eastus2.redis.azure.net
+    REDIS_PORT=10000
+    REDIS_ACCESS_KEY=
+    ```
+    
+    **Option B: Access Key Authentication**
+    
+    Get the access key:
+    ```bash
+    az managed-redis access-keys list \
+      --resource-group <your-resource-group> \
+      --cache-name <your-redis-name> \
+      --query primaryKey -o tsv
+    ```
+    
+    Update your `.env` file:
+    ```env
+    CACHE_ENABLED=true
+    CACHE_TYPE=redis
+    REDIS_HOST=<your-redis-name>.eastus2.redis.azure.net
+    REDIS_PORT=10000
+    REDIS_ACCESS_KEY=<your-access-key>
     ```
 
-**Note**: Azure Managed Redis uses Microsoft Entra ID authentication by default. For local development, the app uses `DefaultAzureCredential` which authenticates using your `az login` session. For production deployments, use Managed Identity.
+**Note**: For local development, Entra ID authentication uses `DefaultAzureCredential` which authenticates using your `az login` session. For production deployments, use Managed Identity. Access key authentication is simpler but less secure.
 
 ---
 
@@ -132,11 +157,96 @@ For production environments, use Azure Managed Redis instead of in-memory cachin
     ENTRA_TENANT_ID=<your-tenant-id>
     ENTRA_CLIENT_ID=<your-client-id-guid>    
     ENTRA_AUDIENCE=api://<your-client-id-guid>
+    
+    # Application Insights (Optional)
+    APPLICATIONINSIGHTS_CONNECTION_STRING=<your-connection-string>
+    APP_NAME=auth-nodejs-quickstart
     ```
 
 ---
 
-## 3. Database Initialization
+## 3. Application Insights Configuration (Optional)
+
+Application Insights provides comprehensive telemetry and monitoring for your application using OpenTelemetry.
+
+1.  **Create Application Insights resource**:
+    ```bash
+    az monitor app-insights component create \
+      --app <your-app-insights-name> \
+      --location <region> \
+      --resource-group <your-resource-group>
+    ```
+
+2.  **Get the connection string**:
+    ```bash
+    az monitor app-insights component show \
+      --app <your-app-insights-name> \
+      --resource-group <your-resource-group> \
+      --query connectionString -o tsv
+    ```
+
+3.  **Add to your `.env` file**:
+    ```env
+    APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=xxxxx;IngestionEndpoint=...
+    ```
+
+### What Gets Tracked
+
+The application automatically tracks:
+- **HTTP Requests**: All incoming API requests with response times and status codes
+- **Dependencies**: Cosmos DB calls, Redis operations, and external HTTP requests
+- **Exceptions**: Errors with full stack traces and context
+- **Traces**: Structured log messages (info, warning, error, debug)
+- **Custom Attributes**: User IDs, project IDs, and request context
+
+### Testing Telemetry
+
+Use the built-in test endpoint to verify logging and Application Insights integration:
+
+1.  Start the server and navigate to http://localhost:3001/api-docs
+2.  Execute the `GET /api/test-logging` endpoint
+3.  Check your console for log output:
+    ```
+    [INFO] Testing info log { testData: 'sample info', userId: 'test-user' }
+    [WARN] Testing warning log { testData: 'sample warning', level: 'medium' }
+    [DEBUG] Testing debug log { testData: 'sample debug' }
+    [ERROR] Testing error log { error: 'This is a test error...', stack: '...' }
+    ```
+4.  After 2-5 minutes, view in Azure Portal → Application Insights:
+    - **Transaction search**: See individual traces and exceptions
+    - **Logs (Analytics)**: Query traces and requests
+    - **Application Map**: Visualize dependencies
+    - **Performance**: Analyze response times
+
+### Query Examples
+
+In Application Insights Logs (Analytics):
+
+```kusto
+// View all traces from the last hour
+traces
+| where timestamp > ago(1h)
+| order by timestamp desc
+
+// View test logging specifically
+traces
+| where message contains "Testing"
+| order by timestamp desc
+
+// View exceptions
+exceptions
+| where timestamp > ago(1h)
+| order by timestamp desc
+
+// View HTTP requests with slow response times
+requests
+| where timestamp > ago(1h) and duration > 1000
+| order by duration desc
+```
+
+---
+
+## 4. Database Initialization
 
 Before running the app, you must create the Database and Container. We use a script for this to ensure the correct **Hierarchical Partition Key** (`/client_name`, `/slug`) is set.
 
@@ -154,7 +264,7 @@ Before running the app, you must create the Database and Container. We use a scr
 
 ---
 
-## 4. Seeding Data
+## 5. Seeding Data
 
 Populate the database with a sample project and user.
 
@@ -174,7 +284,7 @@ npm run seed -- --owner-id "8634b9ec-0ff8-4f23-a108-3b78989ece44" --owner-email 
 
 ---
 
-## 5. Running the Server
+## 6. Running the Server
 
 ```bash
 npm start
@@ -183,7 +293,7 @@ The server will start on `http://localhost:3001`.
 
 ---
 
-## 6. Testing
+## 7. Testing
 
 ### Using Swagger UI
 
@@ -229,6 +339,7 @@ You can also test the API using the included Next.js frontend application with M
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/health` | Health check | Public |
+| `GET` | `/api/test-logging` | Test logging and Application Insights | Public |
 | `GET` | `/api/projects` | List user's projects | Auth Required |
 | `POST` | `/api/projects` | Create a new project | Auth Required |
 | `GET` | `/api/projects/:client_name/:slug` | Get project details | Project Member |

@@ -28,7 +28,7 @@ export interface CachedProjectAccess {
 // User info extracted from JWT
 export interface TokenUser {
   userId: string;          // From oid claim
-  email: string;           // From email/preferred_username claim
+  email: string;           // From email claim
   name: string;            // From name claim
   tenantId: string;        // From tid claim
 }

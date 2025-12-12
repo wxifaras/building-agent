@@ -36,8 +36,11 @@ export function initProjectRoutes(container: Container) {
    *               $ref: '#/components/schemas/Error'
    */
   router.get('/', verifyJWT, async (req: Request, res: Response) => {
+    const authReq = req as AuthRequest;
+    const logger = (req as any).logger;
+    
     try {
-      const authReq = req as AuthRequest;
+      logger.info('Fetching user projects', { userId: authReq.user.userId });
       
       const projects = await getCachedUserProjects(
         authReq.user.userId,
@@ -46,8 +49,14 @@ export function initProjectRoutes(container: Container) {
         }
       );
 
+      logger.info('Projects fetched', { 
+        userId: authReq.user.userId,
+        count: projects.length 
+      });
+
       res.json(projects);
     } catch (error: any) {
+      logger.error('Error fetching user projects', error);
       res.status(500).json({ error: error.message });
     }
   });
@@ -81,20 +90,33 @@ export function initProjectRoutes(container: Container) {
    *         description: Project already exists
    */
   router.post('/', verifyJWT, async (req: Request, res: Response) => {
+    const authReq = req as AuthRequest;
+    const projectData = req.body;
+    const logger = (req as any).logger;
+    
     try {
-      const authReq = req as AuthRequest;
-      const projectData = req.body;
       const userId = authReq.user.userId;
       const userEmail = authReq.user.email || 'unknown';
 
+      logger.info('Creating project', { 
+        userId,
+        client_name: projectData.client_name,
+        slug: projectData.slug 
+      });
+
       // Basic validation
       if (!projectData.client_name || !projectData.slug || !projectData.name || !projectData.projectNumber) {
+        logger.warn('Project creation validation failed', { reason: 'missing-required-fields' });
         return res.status(400).json({ error: 'Missing required fields: client_name, slug, name, projectNumber' });
       }
 
       // Check if project exists
       const existingProject = await projectRepo.getProjectsByClientAndSlug(projectData.client_name, projectData.slug);
       if (existingProject) {
+        logger.warn('Project already exists', { 
+          client_name: projectData.client_name,
+          slug: projectData.slug 
+        });
         return res.status(409).json({ error: 'Project with this client_name and slug already exists' });
       }
 
@@ -111,6 +133,7 @@ export function initProjectRoutes(container: Container) {
       };
 
       const createdProject = await projectRepo.create(newProject);
+      
       const memberId = randomUUID();
 
       // Add Creator as Owner
@@ -126,9 +149,20 @@ export function initProjectRoutes(container: Container) {
         userName: authReq.user.name || 'Unknown'
       });
 
+      logger.info('Project created successfully', {
+        userId,
+        projectId,
+        client_name: projectData.client_name,
+        slug: projectData.slug
+      });
+
       res.status(201).json(createdProject);
 
     } catch (error: any) {
+      logger.error('Error creating project', error, {
+        client_name: projectData.client_name,
+        slug: projectData.slug
+      });
       res.status(500).json({ error: error.message });
     }
   });
@@ -171,14 +205,27 @@ export function initProjectRoutes(container: Container) {
     async (req: Request, res: Response) => {
       const authReq = req as AuthRequest;
       const { client_name, slug } = req.params;
+      const logger = (req as any).logger;
       
       try {
+        logger.info('Fetching project details', { 
+          client_name,
+          slug,
+          projectId: authReq.projectId 
+        });
+        
         const project = await projectRepo.getById(authReq.projectId!, client_name, slug);
         if (!project) {
+          logger.warn('Project not found', { client_name, slug });
           return res.status(404).json({ error: 'Project not found' });
         }
+        
         res.json(project);
       } catch (error: any) {
+        logger.error('Error fetching project details', error, {
+          client_name,
+          slug
+        });
         res.status(500).json({ error: error.message });
       }
   });
@@ -224,11 +271,20 @@ export function initProjectRoutes(container: Container) {
   router.put('/:client_name/:slug', 
     ...requireProjectAccess('editor') as any,
     async (req: Request, res: Response) => {
+      const authReq = req as AuthRequest;
+      const { client_name, slug } = req.params;
+      const logger = (req as any).logger;
+      
       try {
-        const authReq = req as AuthRequest;
-        const { client_name, slug } = req.params;
         const updates = req.body;
         const projectId = authReq.projectId!;
+
+        logger.info('Updating project', { 
+          client_name,
+          slug,
+          projectId,
+          fields: Object.keys(updates)
+        });
 
         // Prevent updating immutable fields
         delete updates.id;
@@ -241,9 +297,21 @@ export function initProjectRoutes(container: Container) {
         updates.updatedAt = new Date().toISOString();
 
         const updatedProject = await projectRepo.update(projectId, client_name, slug, updates);
+        
+        logger.info('Project updated successfully', {
+          projectId,
+          client_name,
+          slug,
+          fields: Object.keys(updates)
+        });
+        
         res.json(updatedProject);
 
       } catch (error: any) {
+        logger.error('Error updating project', error, {
+          client_name,
+          slug
+        });
         res.status(500).json({ error: error.message });
       }
   });
@@ -280,17 +348,35 @@ export function initProjectRoutes(container: Container) {
   router.delete('/:client_name/:slug', 
     ...requireProjectAccess('owner') as any,
     async (req: Request, res: Response) => {
+      const authReq = req as AuthRequest;
+      const { client_name, slug } = req.params;
+      const logger = (req as any).logger;
+      
       try {
-        const authReq = req as AuthRequest;
-        const { client_name, slug } = req.params;
         const projectId = authReq.projectId!;
 
-        // Delete (Not implemented in Repository yet, but assuming standard Cosmos delete)
+        logger.info('Deleting project', { 
+          client_name,
+          slug,
+          projectId 
+        });
+
+        // Delete project
         await container.item(projectId, [client_name, slug]).delete();
+        
+        logger.info('Project deleted successfully', {
+          projectId,
+          client_name,
+          slug
+        });
         
         res.status(204).send();
 
       } catch (error: any) {
+        logger.error('Error deleting project', error, {
+          client_name,
+          slug
+        });
         res.status(500).json({ error: error.message });
       }
   });

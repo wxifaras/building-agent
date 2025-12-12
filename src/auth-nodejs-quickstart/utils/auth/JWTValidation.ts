@@ -173,58 +173,59 @@ export function decodeToken(token: string): any {
   return jwt.decode(token, { complete: true });
 }
 
+import { createLogger } from '../telemetry/logger';
+
+const logger = createLogger({ context: 'JWTValidation' });
+
 /**
  * Debug utility to inspect token contents
  * Use this for troubleshooting authentication issues
  */
 export function debugToken(token: string): void {
-  console.log('\n=== TOKEN DEBUG INFO ===\n');
+  logger.info('=== TOKEN DEBUG INFO ===');
   
   try {
     const decoded = decodeToken(token);
     
     if (!decoded) {
-      console.log('❌ Failed to decode token');
+      logger.error('❌ Failed to decode token', new Error('Token decode failed'));
       return;
     }
 
-    console.log('Header:', decoded.header);
-    console.log('\nPayload:');
-    console.log('  oid (userId):', decoded.payload.oid);
-    console.log('  upn:', decoded.payload.upn);
-    console.log('  email:', decoded.payload.email || decoded.payload.unique_name);
-    console.log('  name:', decoded.payload.name);
-    console.log('  tid (tenantId):', decoded.payload.tid);
-    console.log('  aud (audience):', decoded.payload.aud);
-    console.log('  iss (issuer):', decoded.payload.iss);
-    console.log('  exp (expiration):', new Date(decoded.payload.exp * 1000).toISOString());
-    console.log('  iat (issued at):', new Date(decoded.payload.iat * 1000).toISOString());
-    
-    if (decoded.payload.scp) {
-      console.log('  scopes:', decoded.payload.scp);
-    }
-    
-    if (decoded.payload.roles) {
-      console.log('  roles:', decoded.payload.roles);
-    }
+    logger.info('Header', { header: decoded.header });
+    logger.info('Payload', {
+      oid: decoded.payload.oid,
+      upn: decoded.payload.upn,
+      email: decoded.payload.email || decoded.payload.unique_name,
+      name: decoded.payload.name,
+      tid: decoded.payload.tid,
+      aud: decoded.payload.aud,
+      iss: decoded.payload.iss,
+      exp: new Date(decoded.payload.exp * 1000).toISOString(),
+      iat: new Date(decoded.payload.iat * 1000).toISOString(),
+      ...(decoded.payload.scp && { scopes: decoded.payload.scp }),
+      ...(decoded.payload.roles && { roles: decoded.payload.roles })
+    });
 
     const expiration = getTokenExpiration(token);
     const expired = isTokenExpired(token);
     
-    console.log('\nToken Status:');
-    console.log('  Expired:', expired ? '❌ YES' : '✓ NO');
+    const tokenStatus: any = {
+      expired: expired ? '❌ YES' : '✓ NO'
+    };
+    
     if (expiration) {
       const now = new Date();
       const timeLeft = expiration.getTime() - now.getTime();
       const minutesLeft = Math.floor(timeLeft / 1000 / 60);
-      console.log('  Time remaining:', minutesLeft, 'minutes');
+      tokenStatus.timeRemaining = `${minutesLeft} minutes`;
     }
     
+    logger.info('Token Status', tokenStatus);
+    
   } catch (error) {
-    console.log('❌ Error decoding token:', error);
+    logger.error('❌ Error decoding token', error as Error);
   }
-  
-  console.log('\n======================\n');
 }
 
 /**
