@@ -23,12 +23,12 @@ let client: any = null;
 
 function getJwksClient() {
   if (!client) {
-    if (!process.env.ENTRA_TENANT_ID) {
-      throw new Error('Server configuration error: Missing ENTRA_TENANT_ID');
+    if (!process.env.AZURE_TENANT_ID) {
+      throw new Error('Server configuration error: Missing AZURE_TENANT_ID');
     }
     
     client = jwksClient({
-      jwksUri: `https://login.microsoftonline.com/${process.env.ENTRA_TENANT_ID}/discovery/v2.0/keys`,
+      jwksUri: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/discovery/v2.0/keys`,
       cache: true,
       cacheMaxAge: 86400000, // 24 hours
       rateLimit: true,
@@ -73,16 +73,16 @@ export async function validateAccessToken(token: string): Promise<ValidatedToken
     const signingKey = await getSigningKey(decodedToken.header.kid);
 
     // Ensure configuration is present
-    if (!process.env.ENTRA_TENANT_ID || (!process.env.ENTRA_AUDIENCE && !process.env.ENTRA_CLIENT_ID)) {
-      throw new Error('Server configuration error: Missing ENTRA_TENANT_ID and either ENTRA_AUDIENCE or ENTRA_CLIENT_ID');
+    if (!process.env.AZURE_TENANT_ID || (!process.env.JWT_API_AUDIENCE && !process.env.AZURE_CLIENT_ID)) {
+      throw new Error('Server configuration error: Missing AZURE_TENANT_ID and either JWT_API_AUDIENCE or AZURE_CLIENT_ID');
     }
 
     // Verify the token
     const verified = jwt.verify(token, signingKey, {
-      audience: process.env.ENTRA_AUDIENCE || process.env.ENTRA_CLIENT_ID,
+      audience: process.env.JWT_API_AUDIENCE || process.env.AZURE_CLIENT_ID,
       issuer: [
-        `https://login.microsoftonline.com/${process.env.ENTRA_TENANT_ID}/v2.0`,
-        `https://sts.windows.net/${process.env.ENTRA_TENANT_ID}/`
+        `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/v2.0`,
+        `https://sts.windows.net/${process.env.AZURE_TENANT_ID}/`
       ],
       algorithms: ['RS256'],
       clockTolerance: 5 // Allow 5 seconds tolerance for clock skew
@@ -188,7 +188,7 @@ export function debugToken(token: string): void {
     const decoded = decodeToken(token);
     
     if (!decoded) {
-      logger.error('❌ Failed to decode token', new Error('Token decode failed'));
+      logger.error('Failed to decode token', new Error('Token decode failed'));
       return;
     }
 
@@ -211,7 +211,7 @@ export function debugToken(token: string): void {
     const expired = isTokenExpired(token);
     
     const tokenStatus: any = {
-      expired: expired ? '❌ YES' : '✓ NO'
+      expired: expired ? 'YES' : 'NO'
     };
     
     if (expiration) {
@@ -224,7 +224,7 @@ export function debugToken(token: string): void {
     logger.info('Token Status', tokenStatus);
     
   } catch (error) {
-    logger.error('❌ Error decoding token', error as Error);
+    logger.error('Error decoding token', error as Error);
   }
 }
 

@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import { Container } from '@azure/cosmos';
+import { createLogger } from '../utils/telemetry/logger';
+
+const logger = createLogger();
 
 export function initHealthRoutes(container: Container) {
   const router = Router();
@@ -38,7 +41,6 @@ export function initHealthRoutes(container: Container) {
    *         description: Service unavailable
    */
   router.get('/health', async (req, res) => {
-    const logger = (req as any).logger;
     
     try {
       logger.debug('Health check - checking database connection');
@@ -82,7 +84,6 @@ export function initHealthRoutes(container: Container) {
    *         description: Logging test completed
    */
   router.get('/test-logging', async (req, res) => {
-    const logger = (req as any).logger;
     
     logger.info('Testing info log', { testData: 'sample info', userId: 'test-user' });
     logger.warn('Testing warning log', { testData: 'sample warning', level: 'medium' });

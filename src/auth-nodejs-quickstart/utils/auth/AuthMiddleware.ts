@@ -56,7 +56,7 @@ export async function verifyJWT(
 
     // Log successful authentication (optional, remove in production if too verbose)
     if (process.env.NODE_ENV === 'development') {
-      logger.debug('✓ Token validated', {
+      logger.debug('Token validated', {
         userId: user.userId,
         email: user.email,
         name: user.name,
@@ -183,7 +183,7 @@ export async function checkProjectAccess(
     authReq.userRole = access.role as ProjectRole;
     
     if (process.env.NODE_ENV === 'development') {
-      logger.debug('✓ Project access granted', {
+      logger.debug('Project access granted', {
         userId: authReq.user.userId,
         email: authReq.user.email,
         projectId,

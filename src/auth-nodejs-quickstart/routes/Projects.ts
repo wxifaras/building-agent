@@ -5,6 +5,9 @@ import { ProjectMemberRepository } from '../repositories/ProjectMemberRepository
 import { verifyJWT, requireProjectAccess, AuthRequest } from '../utils/auth/AuthMiddleware';
 import { getCachedUserProjects } from '../utils/cache/CacheHelpers';
 import { randomUUID } from 'crypto';
+import { createLogger } from '../utils/telemetry/logger';
+
+const logger = createLogger();
 
 export function initProjectRoutes(container: Container) {
   const router = Router();
@@ -37,7 +40,6 @@ export function initProjectRoutes(container: Container) {
    */
   router.get('/', verifyJWT, async (req: Request, res: Response) => {
     const authReq = req as AuthRequest;
-    const logger = (req as any).logger;
     
     try {
       logger.info('Fetching user projects', { userId: authReq.user.userId });
@@ -92,7 +94,6 @@ export function initProjectRoutes(container: Container) {
   router.post('/', verifyJWT, async (req: Request, res: Response) => {
     const authReq = req as AuthRequest;
     const projectData = req.body;
-    const logger = (req as any).logger;
     
     try {
       const userId = authReq.user.userId;
@@ -273,7 +274,6 @@ export function initProjectRoutes(container: Container) {
     async (req: Request, res: Response) => {
       const authReq = req as AuthRequest;
       const { client_name, slug } = req.params;
-      const logger = (req as any).logger;
       
       try {
         const updates = req.body;
@@ -350,7 +350,6 @@ export function initProjectRoutes(container: Container) {
     async (req: Request, res: Response) => {
       const authReq = req as AuthRequest;
       const { client_name, slug } = req.params;
-      const logger = (req as any).logger;
       
       try {
         const projectId = authReq.projectId!;

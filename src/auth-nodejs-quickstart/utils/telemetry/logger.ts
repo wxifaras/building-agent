@@ -1,14 +1,33 @@
 // src/utils/telemetry/logger.ts
 import { trace, SpanStatusCode } from '@opentelemetry/api';
+import pino from 'pino';
+
+// Configure Pino logger
+const pinoLogger = pino({
+  level: process.env.LOG_LEVEL || 'info',
+  transport: process.env.NODE_ENV === 'development' ? {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: 'HH:MM:ss',
+      ignore: 'pid,hostname',
+    }
+  } : undefined,
+  formatters: {
+    level: (label) => ({ level: label }),
+  },
+});
 
 /**
- * Structured logger that logs to both console and Application Insights
+ * Structured logger that logs to console (via Pino) and Application Insights (via OpenTelemetry)
  */
 export class Logger {
   private context: Record<string, any>;
+  private pinoChild: pino.Logger;
 
   constructor(context: Record<string, any> = {}) {
     this.context = context;
+    this.pinoChild = pinoLogger.child(context);
   }
 
   /**
@@ -23,7 +42,7 @@ export class Logger {
    */
   info(message: string, data?: Record<string, any>): void {
     const logData = { ...this.context, ...data };
-    console.log(`[INFO] ${message}`, logData);
+    this.pinoChild.info(data || {}, message);
     
     const span = trace.getActiveSpan();
     if (span) {
@@ -36,7 +55,7 @@ export class Logger {
    */
   warn(message: string, data?: Record<string, any>): void {
     const logData = { ...this.context, ...data };
-    console.warn(`[WARN] ${message}`, logData);
+    this.pinoChild.warn(data || {}, message);
     
     const span = trace.getActiveSpan();
     if (span) {
@@ -50,15 +69,11 @@ export class Logger {
   error(message: string, error?: Error | any, data?: Record<string, any>): void {
     const logData = { ...this.context, ...data };
     
-    // Log to console
+    // Log to Pino
     if (error instanceof Error) {
-      console.error(`[ERROR] ${message}`, {
-        error: error.message,
-        stack: error.stack,
-        ...logData
-      });
+      this.pinoChild.error({ err: error, ...data }, message);
     } else {
-      console.error(`[ERROR] ${message}`, { error, ...logData });
+      this.pinoChild.error({ error, ...data }, message);
     }
     
     // Log to Application Insights via active span
@@ -78,13 +93,10 @@ export class Logger {
   }
 
   /**
-   * Log debug message (only in development)
+   * Log debug message
    */
   debug(message: string, data?: Record<string, any>): void {
-    if (process.env.NODE_ENV === 'development') {
-      const logData = { ...this.context, ...data };
-      console.debug(`[DEBUG] ${message}`, logData);
-    }
+    this.pinoChild.debug(data || {}, message);
   }
 }
 

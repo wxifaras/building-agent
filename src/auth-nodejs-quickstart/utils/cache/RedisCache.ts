@@ -1,6 +1,9 @@
 import { createClient, RedisClientType } from 'redis';
 import { DefaultAzureCredential } from '@azure/identity';
 import { ICache, CachedUserProjects, CachedProjectAccess } from './CacheInterface';
+import { createLogger } from '../telemetry/logger';
+
+const logger = createLogger({ component: 'RedisCache' });
 
 export class RedisCache implements ICache {
   private client: RedisClientType | null = null;
@@ -32,7 +35,10 @@ export class RedisCache implements ICache {
 
     // Get token for Azure Redis scope
     const tokenResponse = await this.credential.getToken('https://redis.azure.com/.default');
-    console.log('📦 Redis: Entra token obtained (length:', tokenResponse.token.length, 'expires:', new Date(tokenResponse.expiresOnTimestamp));
+    logger.debug('Redis: Entra token obtained', {
+      tokenLength: tokenResponse.token.length,
+      expires: new Date(tokenResponse.expiresOnTimestamp).toISOString()
+    });
     return tokenResponse.token;
   }
 
@@ -53,9 +59,9 @@ export class RedisCache implements ICache {
       const token = await this.getEntraToken();
       // Use AUTH command to update the token with the Object ID as username
       await this.client.sendCommand(['AUTH', this.objectId, token]);
-      console.log('📦 Redis: Token refreshed successfully');
+      logger.debug('Redis: Token refreshed successfully');
     } catch (error) {
-      console.error('Failed to refresh Redis token:', error);
+      logger.error('Failed to refresh Redis token', error as Error);
     }
   }
 
@@ -63,7 +69,7 @@ export class RedisCache implements ICache {
     // Refresh token every 45 minutes (tokens are valid for 1 hour)
     this.tokenRefreshTimer = setInterval(() => {
       this.refreshEntraToken().catch(err => {
-        console.error('Token refresh error:', err);
+        logger.error('Token refresh error', err as Error);
       });
     }, 45 * 60 * 1000); // 45 minutes
   }
@@ -93,14 +99,17 @@ export class RedisCache implements ICache {
           password: this.accessKey
         });
 
-        console.log(`📦 Connecting to Azure Redis with Access Key: ${this.redisHost}:${this.redisPort}`);
+        logger.info('Connecting to Azure Redis with Access Key', {
+          host: this.redisHost,
+          port: this.redisPort
+        });
       } else {
         // Entra ID Authentication
         const token = await this.getEntraToken();
         
         // Extract Object ID from token to use as username
         this.objectId = this.parseObjectIdFromToken(token);
-        console.log(`📦 Using Object ID as Redis username: ${this.objectId}`);
+        logger.debug('Using Object ID as Redis username', { objectId: this.objectId });
         
         this.client = createClient({
           socket: {
@@ -113,21 +122,24 @@ export class RedisCache implements ICache {
           password: token
         });
 
-        console.log(`📦 Connecting to Azure Redis with Entra ID: ${this.redisHost}:${this.redisPort}`);
+        logger.info('Connecting to Azure Redis with Entra ID', {
+          host: this.redisHost,
+          port: this.redisPort
+        });
       }
 
       this.client.on('error', (err) => {
-        console.error('Redis Client Error:', err);
+        logger.error('Redis Client Error', err as Error);
         this.connected = false;
       });
 
       this.client.on('connect', () => {
-        console.log('✓ Redis Client Connected');
+        logger.info('Redis Client Connected');
         this.connected = true;
       });
 
       this.client.on('disconnect', () => {
-        console.log('Redis Client Disconnected');
+        logger.info('Redis Client Disconnected');
         this.connected = false;
       });
 
@@ -138,7 +150,7 @@ export class RedisCache implements ICache {
         this.startTokenRefresh();
       }
     } catch (error) {
-      console.error('Failed to connect to Redis:', error);
+      logger.error('Failed to connect to Redis', error as Error);
       this.connected = false;
       throw error;
     }
@@ -169,7 +181,7 @@ export class RedisCache implements ICache {
       const data = await this.client.get(key);
       return data ? JSON.parse(data) : null;
     } catch (error) {
-      console.error('Redis get user projects error:', error);
+      logger.error('Redis get user projects error', error as Error, { userId });
       return null;
     }
   }
@@ -181,7 +193,7 @@ export class RedisCache implements ICache {
       const key = this.getKey('user-projects', userId);
       await this.client.setEx(key, ttl, JSON.stringify(projects));
     } catch (error) {
-      console.error('Redis set user projects error:', error);
+      logger.error('Redis set user projects error', error as Error, { userId, ttl });
     }
   }
 
@@ -192,7 +204,7 @@ export class RedisCache implements ICache {
       const key = this.getKey('user-projects', userId);
       await this.client.del(key);
     } catch (error) {
-      console.error('Redis invalidate user projects error:', error);
+      logger.error('Redis invalidate user projects error', error as Error, { userId });
     }
   }
 
@@ -205,7 +217,7 @@ export class RedisCache implements ICache {
       const data = await this.client.get(key);
       return data ? JSON.parse(data) : null;
     } catch (error) {
-      console.error('Redis get project access error:', error);
+      logger.error('Redis get project access error', error as Error, { userId, projectId });
       return null;
     }
   }
@@ -217,7 +229,7 @@ export class RedisCache implements ICache {
       const key = this.getKey('access', userId, projectId);
       await this.client.setEx(key, ttl, JSON.stringify(access));
     } catch (error) {
-      console.error('Redis set project access error:', error);
+      logger.error('Redis set project access error', error as Error, { userId, projectId, ttl });
     }
   }
 
@@ -230,7 +242,7 @@ export class RedisCache implements ICache {
         this.client.del(this.getKey('user-projects', userId))
       ]);
     } catch (error) {
-      console.error('Redis invalidate project access error:', error);
+      logger.error('Redis invalidate project access error', error as Error, { userId, projectId });
     }
   }
 
@@ -267,7 +279,7 @@ export class RedisCache implements ICache {
         await this.client.del(userKeys);
       }
     } catch (error) {
-      console.error('Redis invalidate project cache error:', error);
+      logger.error('Redis invalidate project cache error', error as Error, { projectId });
     }
   }
 }

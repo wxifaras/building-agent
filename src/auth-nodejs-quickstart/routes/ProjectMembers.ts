@@ -3,6 +3,9 @@ import { Container } from '@azure/cosmos';
 import { requireProjectAccess, AuthRequest } from '../utils/auth/AuthMiddleware';
 import { ProjectMemberRepository } from '../repositories/ProjectMemberRepository';
 import { invalidateProjectAccessCache, invalidateUserProjectsCache } from '../utils/cache/CacheHelpers';
+import { createLogger } from '../utils/telemetry/logger';
+
+const logger = createLogger();
 
 const router = express.Router();
 
@@ -49,7 +52,6 @@ router.get('/projects/:client_name/:slug/members',
   async (req: Request, res: Response) => {
     const authReq = req as AuthRequest;
     const { client_name, slug } = req.params;
-    const logger = (req as any).logger;
     
     try {
       logger.info('Fetching project members', { client_name, slug });

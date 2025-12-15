@@ -16,10 +16,12 @@ import { CacheFactory } from './utils/cache/CacheFactory';
 import { setCacheInstance, getCacheStats } from './utils/cache/CacheHelpers';
 import { debugTokenMiddleware } from './utils/auth/JWTValidation';
 import { telemetryMiddleware } from './utils/telemetry/telemetryMiddleware';
+import { createLogger } from './utils/telemetry/logger';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 import cors from 'cors';
 
+const logger = createLogger({ component: 'App' });
 const app = express();
 
 // CORS
@@ -42,19 +44,13 @@ if (process.env.NODE_ENV === 'development') {
 
 // Error handler middleware
 const errorHandler = (err: any, req: any, res: any, next: any) => {
-  const logger = (req as any).logger;
-  if (logger) {
-    logger.error('Unhandled error', err);
-  } else {
-    console.error('Unhandled error', err, {
-      url: req.url,
-      method: req.method,
-      userAgent: req.get('user-agent') || 'unknown',
-      stack: err.stack
-    });
-  }
-  
-  res.status(500).json({ 
+  logger.error('Unhandled error', err, {
+    url: req.url,
+    method: req.method,
+    userAgent: req.get('user-agent') || 'unknown'
+  });
+
+  res.status(500).json({
     error: 'internal_server_error',
     message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
   });
@@ -63,13 +59,13 @@ const errorHandler = (err: any, req: any, res: any, next: any) => {
 async function startServer() {
   try {
     // Initialize Cache
-    console.log('📦 Initializing cache system...');
+    logger.info('Initializing cache system...');
     const cache = await CacheFactory.createCache();
     setCacheInstance(cache);
-    
+
     // Initialize Cosmos DB
-    console.log('🗄️  Initializing Cosmos DB...');
-    
+    logger.info('Initializing Cosmos DB...');
+
     const endpoint = process.env.COSMOS_ENDPOINT;
     if (!endpoint) {
       throw new Error("Environment variable COSMOS_ENDPOINT must be set");
@@ -85,21 +81,21 @@ async function startServer() {
     const containerId = process.env.COSMOS_CONTAINER || "Items";
     const database = cosmosClient.database(databaseId);
     const container = database.container(containerId);
-    console.log('✓ Cosmos DB initialized');
+    logger.info('Cosmos DB initialized');
 
     // Swagger Documentation
-    console.log('📖 Setting up Swagger documentation...');
+    logger.info('Setting up Swagger documentation...');
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
       customCss: '.swagger-ui .topbar { display: none }',
       customSiteTitle: 'Project Management API',
     }));
-    
+
     // Initialize middleware and routes
     initAuthMiddleware(container);
 
     // Routes
-    app.use('/api', initHealthRoutes(container));    
-    app.use('/api/projects', initProjectRoutes(container));    
+    app.use('/api', initHealthRoutes(container));
+    app.use('/api/projects', initProjectRoutes(container));
     app.use('/api', initProjectMemberRoutes(container));
 
     // Cache stats endpoint (development only)
@@ -126,37 +122,32 @@ async function startServer() {
         cacheEnabled: cacheStats.connected,
         cacheType: cacheStats.type
       };
-      
-      console.log(`Server running on port ${PORT}`, {
-        environment: startupInfo.environment,
-        cache: cacheStats.connected ? 'ENABLED' : 'DISABLED',
-        cacheType: cacheStats.type
-      });
+
+      logger.info(`Server running on port ${PORT}`, startupInfo);
     });
   } catch (error) {
-    console.error('Failed to start server', error);process.exit(1);
+    logger.error('Failed to start server', error as Error);
+    process.exit(1);
   }
 }
 
 // Graceful shutdown
 async function shutdown() {
-  console.log('⏳ Shutting down gracefully...', {
+  logger.info('Shutting down gracefully...', {
     environment: process.env.NODE_ENV || 'development'
   });
-  
-  // Flush and shutdown telemetry
 
-  
+  // Flush and shutdown telemetry  
   const cache = require('./utils/cache/cacheHelpers').getCacheInstance();
   if (cache) {
     try {
       await cache.disconnect();
-      console.log('✓ Cache disconnected');
+      logger.info('Cache disconnected');
     } catch (error) {
-      console.error('Error disconnecting cache', error);
+      logger.error('Error disconnecting cache', error as Error);
     }
   }
-  
+
   process.exit(0);
 }
 

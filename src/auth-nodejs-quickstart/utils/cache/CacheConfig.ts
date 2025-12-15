@@ -34,6 +34,6 @@ export const cacheConfig: CacheConfig = {
 
 // Validate configuration
 if (cacheConfig.enabled && cacheConfig.type === 'redis' && !cacheConfig.redisHost) {
-  logger.warn('⚠️  Redis cache enabled but REDIS_HOST not configured. Falling back to memory cache.');
+  logger.warn('Redis cache enabled but REDIS_HOST not configured. Falling back to memory cache.');
   cacheConfig.type = 'memory';
 }

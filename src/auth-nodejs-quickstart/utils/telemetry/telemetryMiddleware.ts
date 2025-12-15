@@ -4,10 +4,13 @@ import { trace } from '@opentelemetry/api';
 import { AuthRequest } from '../auth/AuthMiddleware';
 import { createLogger } from './logger';
 
+// Singleton logger instance
+const logger = createLogger({ component: 'TelemetryMiddleware' });
+
 /**
  * Middleware to enrich OpenTelemetry spans with request context
  * ExpressInstrumentation already creates spans automatically,
- * this middleware adds additional attributes and logger to the request
+ * this middleware adds additional attributes for observability
  */
 export function telemetryMiddleware(req: Request, res: Response, next: NextFunction): void {
   const span = trace.getActiveSpan();
@@ -38,27 +41,20 @@ export function telemetryMiddleware(req: Request, res: Response, next: NextFunct
       span.setAttribute('project.slug', req.params.slug);
     }
     
-    // Create logger with request context and attach to request
-    const logger = createLogger({
-      method: req.method,
-      path: req.path,
-      userId: authReq.user?.userId,
-      projectId: authReq.projectId,
-    });
-    
-    // Attach logger to request for route handlers to use
-    (req as any).logger = logger;
-    
     // Track response status on finish
     res.on('finish', () => {
       span.setAttribute('http.status_code', res.statusCode);
       
-      // Log slow requests
+      // Log slow requests with context from span attributes
       const duration = Date.now() - (req as any).startTime;
       if (duration > 1000) {
         logger.warn('Slow request detected', {
           duration,
-          statusCode: res.statusCode
+          statusCode: res.statusCode,
+          method: req.method,
+          path: req.path,
+          userId: authReq.user?.userId,
+          projectId: authReq.projectId
         });
       }
     });
@@ -71,12 +67,11 @@ export function telemetryMiddleware(req: Request, res: Response, next: NextFunct
 }
 
 /**
- * Type augmentation for Express Request to include logger
+ * Type augmentation for Express Request
  */
 declare global {
   namespace Express {
     interface Request {
-      logger: ReturnType<typeof createLogger>;
       startTime: number;
     }
   }

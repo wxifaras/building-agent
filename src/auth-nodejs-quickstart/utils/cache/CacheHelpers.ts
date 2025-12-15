@@ -22,19 +22,19 @@ export async function getCachedUserProjects(
   fetchFromDb: () => Promise<CachedProjectAccess[]>
 ): Promise<CachedProjectAccess[]> {
   if (!cacheInstance || !cacheInstance.isConnected()) {
-    logger.debug('📦 Cache: BYPASS - cache not available');
+    logger.debug('Cache: BYPASS - cache not available');
     return await fetchFromDb();
   }
 
   // Try cache first
   const cached = await cacheInstance.getUserProjects(userId);
   if (cached) {
-    logger.debug(`📦 Cache: HIT - User projects for userId=${userId.substring(0, 8)}...`);
+    logger.debug(`Cache: HIT - User projects for userId=${userId.substring(0, 8)}...`);
     return cached.projects;
   }
 
   // Cache miss - fetch from database
-  logger.debug(`📦 Cache: MISS - User projects for userId=${userId.substring(0, 8)}..., fetching from DB`);
+  logger.debug(`Cache: MISS - User projects for userId=${userId.substring(0, 8)}..., fetching from DB`);
   const projects = await fetchFromDb();
   
   const cacheData: CachedUserProjects = {
@@ -44,7 +44,7 @@ export async function getCachedUserProjects(
   };
   
   await cacheInstance.setUserProjects(userId, cacheData, cacheConfig.ttl.userProjects);
-  logger.debug(`📦 Cache: SET - User projects cached for userId=${userId.substring(0, 8)}... (TTL: ${cacheConfig.ttl.userProjects}s)`);
+  logger.debug(`Cache: SET - User projects cached for userId=${userId.substring(0, 8)}... (TTL: ${cacheConfig.ttl.userProjects}s)`);
 
   return projects;
 }
@@ -58,24 +58,24 @@ export async function getCachedProjectAccess(
   fetchFromDb: () => Promise<CachedProjectAccess | null>
 ): Promise<CachedProjectAccess | null> {
   if (!cacheInstance || !cacheInstance.isConnected()) {
-    logger.debug('📦 Cache: BYPASS - cache not available');
+    logger.debug('Cache: BYPASS - cache not available');
     return await fetchFromDb();
   }
 
   // Try cache first
   const cached = await cacheInstance.getProjectAccess(userId, projectId);
   if (cached) {
-    logger.debug(`📦 Cache: HIT - Project access for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}...`);
+    logger.debug(`Cache: HIT - Project access for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}...`);
     return cached;
   }
 
   // Cache miss - fetch from database
-  logger.debug(`📦 Cache: MISS - Project access for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}..., fetching from DB`);
+  logger.debug(`Cache: MISS - Project access for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}..., fetching from DB`);
   const access = await fetchFromDb();
   
   if (access) {
     await cacheInstance.setProjectAccess(userId, projectId, access, cacheConfig.ttl.projectAccess);
-    logger.debug(`📦 Cache: SET - Project access cached for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}... (TTL: ${cacheConfig.ttl.projectAccess}s)`);
+    logger.debug(`Cache: SET - Project access cached for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}... (TTL: ${cacheConfig.ttl.projectAccess}s)`);
   }
 
   return access;
@@ -87,7 +87,7 @@ export async function getCachedProjectAccess(
 export async function invalidateUserProjectsCache(userId: string): Promise<void> {
   if (cacheInstance && cacheInstance.isConnected()) {
     await cacheInstance.invalidateUserProjects(userId);
-    logger.debug(`📦 Cache: INVALIDATE - User projects for userId=${userId.substring(0, 8)}...`);
+    logger.debug(`Cache: INVALIDATE - User projects for userId=${userId.substring(0, 8)}...`);
   }
 }
 
@@ -100,7 +100,7 @@ export async function invalidateProjectAccessCache(
 ): Promise<void> {
   if (cacheInstance && cacheInstance.isConnected()) {
     await cacheInstance.invalidateProjectAccess(userId, projectId);
-    logger.debug(`📦 Cache: INVALIDATE - Project access for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}...`);
+    logger.debug(`Cache: INVALIDATE - Project access for userId=${userId.substring(0, 8)}..., projectId=${projectId.substring(0, 8)}...`);
   }
 }
 
@@ -110,7 +110,7 @@ export async function invalidateProjectAccessCache(
 export async function invalidateProjectCache(projectId: string): Promise<void> {
   if (cacheInstance && cacheInstance.isConnected()) {
     await cacheInstance.invalidateProjectCache(projectId);
-    logger.debug(`📦 Cache: INVALIDATE - All cache entries for projectId=${projectId.substring(0, 8)}...`);
+    logger.debug(`Cache: INVALIDATE - All cache entries for projectId=${projectId.substring(0, 8)}...`);
   }
 }
 
