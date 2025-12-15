@@ -3,9 +3,7 @@ import { RedisCache } from './RedisCache';
 import { MemoryCache } from './MemoryCache';
 import { NoOpCache } from './NoOpCache';
 import { cacheConfig } from './CacheConfig';
-import { createLogger } from '../telemetry/logger';
-
-const logger = createLogger({ context: 'CacheFactory' });
+import { logger } from '../telemetry/logger';
 
 export class CacheFactory {
   static async createCache(): Promise<ICache> {

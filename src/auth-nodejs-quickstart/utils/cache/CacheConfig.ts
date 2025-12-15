@@ -1,7 +1,5 @@
 import dotenv from 'dotenv';
-import { createLogger } from '../telemetry/logger';
-
-const logger = createLogger({ context: 'CacheConfig' });
+import { logger } from '../telemetry/logger';
 
 // Load environment variables first
 dotenv.config();

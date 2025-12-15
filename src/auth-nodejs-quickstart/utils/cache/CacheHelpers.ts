@@ -1,8 +1,6 @@
 import { ICache, CachedUserProjects, CachedProjectAccess } from './CacheInterface';
 import { cacheConfig } from './CacheConfig';
-import { createLogger } from '../telemetry/logger';
-
-const logger = createLogger({ context: 'CacheHelpers' });
+import { logger } from '../telemetry/logger';
 
 let cacheInstance: ICache | null = null;
 

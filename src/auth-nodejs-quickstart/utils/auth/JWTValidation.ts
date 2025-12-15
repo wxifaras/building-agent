@@ -1,6 +1,7 @@
 // utils/msalValidation.ts
 import jwt, { JwtHeader, JwtPayload } from 'jsonwebtoken';
 import jwksClient, { SigningKey } from 'jwks-rsa';
+import { logger } from '../telemetry/logger';
 
 export interface ValidatedTokenPayload extends JwtPayload {
   oid: string;        // Entra Object ID (user's unique ID)
@@ -172,10 +173,6 @@ export function isTokenExpiredOrExpiring(token: string, bufferSeconds: number = 
 export function decodeToken(token: string): any {
   return jwt.decode(token, { complete: true });
 }
-
-import { createLogger } from '../telemetry/logger';
-
-const logger = createLogger({ context: 'JWTValidation' });
 
 /**
  * Debug utility to inspect token contents

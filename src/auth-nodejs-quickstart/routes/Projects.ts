@@ -5,9 +5,9 @@ import { ProjectMemberRepository } from '../repositories/ProjectMemberRepository
 import { verifyJWT, requireProjectAccess, AuthRequest } from '../utils/auth/AuthMiddleware';
 import { getCachedUserProjects } from '../utils/cache/CacheHelpers';
 import { randomUUID } from 'crypto';
-import { createLogger } from '../utils/telemetry/logger';
+import { logger as rootLogger } from '../utils/telemetry/logger';
 
-const logger = createLogger();
+const logger = rootLogger;
 
 export function initProjectRoutes(container: Container) {
   const router = Router();

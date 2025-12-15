@@ -1,9 +1,7 @@
 import { createClient, RedisClientType } from 'redis';
 import { DefaultAzureCredential } from '@azure/identity';
 import { ICache, CachedUserProjects, CachedProjectAccess } from './CacheInterface';
-import { createLogger } from '../telemetry/logger';
-
-const logger = createLogger({ component: 'RedisCache' });
+import { logger } from '../telemetry/logger';
 
 export class RedisCache implements ICache {
   private client: RedisClientType | null = null;

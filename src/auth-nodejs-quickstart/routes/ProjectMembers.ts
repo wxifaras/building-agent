@@ -3,9 +3,9 @@ import { Container } from '@azure/cosmos';
 import { requireProjectAccess, AuthRequest } from '../utils/auth/AuthMiddleware';
 import { ProjectMemberRepository } from '../repositories/ProjectMemberRepository';
 import { invalidateProjectAccessCache, invalidateUserProjectsCache } from '../utils/cache/CacheHelpers';
-import { createLogger } from '../utils/telemetry/logger';
+import { logger as rootLogger } from '../utils/telemetry/logger';
 
-const logger = createLogger();
+const logger = rootLogger;
 
 const router = express.Router();
 

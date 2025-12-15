@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { Container } from '@azure/cosmos';
-import { createLogger } from '../utils/telemetry/logger';
+import { logger as rootLogger } from '../utils/telemetry/logger';
 
-const logger = createLogger();
+const logger = rootLogger;
 
 export function initHealthRoutes(container: Container) {
   const router = Router();

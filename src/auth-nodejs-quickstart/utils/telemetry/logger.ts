@@ -1,6 +1,6 @@
 // src/utils/telemetry/logger.ts
 import { trace, SpanStatusCode } from '@opentelemetry/api';
-import pino from 'pino';
+import pino, { Logger as PinoLogger } from 'pino';
 
 // Configure Pino logger
 const pinoLogger = pino({
@@ -23,7 +23,7 @@ const pinoLogger = pino({
  */
 export class Logger {
   private context: Record<string, any>;
-  private pinoChild: pino.Logger;
+  private pinoChild: PinoLogger;
 
   constructor(context: Record<string, any> = {}) {
     this.context = context;
@@ -42,7 +42,7 @@ export class Logger {
    */
   info(message: string, data?: Record<string, any>): void {
     const logData = { ...this.context, ...data };
-    this.pinoChild.info(data || {}, message);
+    this.pinoChild.info(data ?? {}, message);
     
     const span = trace.getActiveSpan();
     if (span) {
@@ -55,7 +55,7 @@ export class Logger {
    */
   warn(message: string, data?: Record<string, any>): void {
     const logData = { ...this.context, ...data };
-    this.pinoChild.warn(data || {}, message);
+    this.pinoChild.warn(data ?? {}, message);
     
     const span = trace.getActiveSpan();
     if (span) {
@@ -71,9 +71,9 @@ export class Logger {
     
     // Log to Pino
     if (error instanceof Error) {
-      this.pinoChild.error({ err: error, ...data }, message);
+      this.pinoChild.error({ err: error, ...(data ?? {}) }, message);
     } else {
-      this.pinoChild.error({ error, ...data }, message);
+      this.pinoChild.error({ error, ...(data ?? {}) }, message);
     }
     
     // Log to Application Insights via active span
@@ -96,13 +96,25 @@ export class Logger {
    * Log debug message
    */
   debug(message: string, data?: Record<string, any>): void {
-    this.pinoChild.debug(data || {}, message);
+    this.pinoChild.debug(data ?? {}, message);
   }
 }
 
+// Root singleton logger. Node/TS module caching ensures this is instantiated once.
+const rootLogger = new Logger();
+
 /**
- * Create a logger instance
+ * Create (or reuse) a logger instance.
+ *
+ * - Without context: returns the shared singleton logger.
+ * - With context: returns a child logger derived from the singleton.
  */
 export function createLogger(context?: Record<string, any>): Logger {
-  return new Logger(context);
+  if (!context || Object.keys(context).length === 0) {
+    return rootLogger;
+  }
+  return rootLogger.child(context);
 }
+
+// Optional named export for direct singleton usage.
+export const logger = rootLogger;

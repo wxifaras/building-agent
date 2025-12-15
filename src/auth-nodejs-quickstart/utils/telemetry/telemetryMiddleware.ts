@@ -2,10 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { trace } from '@opentelemetry/api';
 import { AuthRequest } from '../auth/AuthMiddleware';
-import { createLogger } from './logger';
-
-// Singleton logger instance
-const logger = createLogger({ component: 'TelemetryMiddleware' });
+import { logger } from './logger';
 
 /**
  * Middleware to enrich OpenTelemetry spans with request context

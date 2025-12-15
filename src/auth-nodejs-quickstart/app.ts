@@ -16,12 +16,11 @@ import { CacheFactory } from './utils/cache/CacheFactory';
 import { setCacheInstance, getCacheStats } from './utils/cache/CacheHelpers';
 import { debugTokenMiddleware } from './utils/auth/JWTValidation';
 import { telemetryMiddleware } from './utils/telemetry/telemetryMiddleware';
-import { createLogger } from './utils/telemetry/logger';
+import { logger } from './utils/telemetry/logger';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 import cors from 'cors';
 
-const logger = createLogger({ component: 'App' });
 const app = express();
 
 // CORS

@@ -5,9 +5,7 @@ import { ProjectMemberRepository } from '../../repositories/ProjectMemberReposit
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { getCachedProjectAccess } from '../cache/CacheHelpers';
 import { ProjectRole, TokenUser } from '../../models/ProjectMember';
-import { createLogger } from '../telemetry/logger';
-
-const logger = createLogger({ context: 'AuthMiddleware' });
+import { logger } from '../telemetry/logger';
 
 export interface AuthRequest extends Request {
   user: TokenUser;
