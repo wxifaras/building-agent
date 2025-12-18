@@ -1,0 +1,27 @@
+{
+  "name": "storage-nodejs-quickstart",
+  "version": "1.0.0",
+  "description": "Azure Blob Storage quickstart for Node.js/TypeScript",
+  "main": "examples/usage.ts",
+  "scripts": {
+    "start": "tsx examples/usage.ts",
+    "dev": "tsx watch examples/usage.ts"
+  },
+  "keywords": [
+    "azure",
+    "storage",
+    "blob",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/identity": "^4.0.0",
+    "@azure/storage-blob": "^12.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -213,7 +213,6 @@ node_modules/
 npm-debug.log
 yarn-error.log
 .env
-package-lock.json
 
 # Specific
 src/storage-nodejs-quickstart/sampleimages/*
