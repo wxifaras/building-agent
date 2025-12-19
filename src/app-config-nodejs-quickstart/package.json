@@ -1,0 +1,30 @@
+{
+  "name": "app-config-nodejs-quickstart",
+  "version": "1.0.0",
+  "description": "Azure App Configuration with Key Vault references quickstart",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx examples/usage.ts",
+    "build": "tsc",
+    "start": "node dist/examples/usage.js"
+  },
+  "keywords": [
+    "azure",
+    "app-configuration",
+    "key-vault"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure/app-configuration-provider": "^2.2.0",
+    "@azure/identity": "^4.13.0",
+    "@azure/keyvault-secrets": "^4.10.0",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.2"
+  }
+}
