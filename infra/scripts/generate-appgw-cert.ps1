@@ -78,13 +78,8 @@ try {
     Write-Host "`nSetting certificate in azd environment..." -ForegroundColor Cyan
     azd env set base64Certificate $base64Cert
     
-    # Extract FQDN from subject (CN=xxx)
-    $fqdn = $Subject -replace "CN=", ""
-    azd env set applicationGatewayFqdn $fqdn
-    
     Write-Host "`n✓ Certificate configuration complete!" -ForegroundColor Green
     Write-Host "  - base64Certificate: Set ($($base64Cert.Length) chars)" -ForegroundColor Gray
-    Write-Host "  - applicationGatewayFqdn: $fqdn" -ForegroundColor Gray
     
     # Clean up certificate from store
     Remove-Item -Path "Cert:\CurrentUser\My\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
