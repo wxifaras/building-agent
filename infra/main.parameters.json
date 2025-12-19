@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "${AZURE_LOCATION=westus2}"
+    },
+    "workloadName": {
+      "value": "${workloadName=aca-lza}"
+    },
+    "environment": {
+      "value": "${environment=dev}"
+    },
+    "spokeVNetAddressPrefixes": {
+      "value": ["10.1.0.0/21"]
+    },
+    "spokeInfraSubnetAddressPrefix": {
+      "value": "10.1.0.0/23"
+    },
+    "spokePrivateEndpointsSubnetAddressPrefix": {
+      "value": "10.1.2.0/27"
+    },
+    "spokeApplicationGatewaySubnetAddressPrefix": {
+      "value": "10.1.3.0/24"
+    },
+    "deploymentSubnetAddressPrefix": {
+      "value": "10.1.4.0/24"
+    },
+    "vmJumpBoxSubnetAddressPrefix": {
+      "value": "10.1.2.32/27"
+    },
+    "vmJumpboxOSType": {
+      "value": "${vmJumpboxOSType=none}"
+    },
+    "vmSize": {
+      "value": "${vmSize=Standard_D2s_v3}"
+    },
+    "storageAccountType": {
+      "value": "${storageAccountType=Standard_LRS}"
+    },
+    "routeSpokeTrafficInternally": {
+      "value": "${routeSpokeTrafficInternally=false}"
+    },
+    "enableApplicationInsights": {
+      "value": "${enableApplicationInsights=true}"
+    },
+    "applicationGatewayCertificateKeyName": {
+      "value": "${applicationGatewayCertificateKeyName=appgwcert}"
+    },
+    "deployZoneRedundantResources": {
+      "value": "${deployZoneRedundantResources=true}"
+    },
+    "exposeContainerAppsWith": {
+      "value": "${exposeContainerAppsWith=none}"
+    },
+    "deploySampleApplication": {
+      "value": "${deploySampleApplication=false}"
+    },
+    "enableDdosProtection": {
+      "value": "${enableDdosProtection=false}"
+    },
+    "deployAgentPool": {
+      "value": "${deployAgentPool=true}"
+    },
+    "enableTelemetry": {
+      "value": "${enableTelemetry=true}"
+    },
+    "tags": {
+      "value": {
+        "azd-env-name": "${AZURE_ENV_NAME}"
+      }
+    }
+  }
+}

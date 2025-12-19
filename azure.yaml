@@ -1,0 +1,32 @@
+name: building-agent
+
+metadata:
+  template: building-agent@0.0.1
+
+infra:
+  provider: bicep
+  path: infra
+  module: main
+  deploymentScope: subscription
+
+# Hooks for pre/post deployment actions
+hooks:
+  preprovision:
+    posix:
+      shell: sh
+      run: |
+        echo "Validating Azure subscription and permissions..."
+    windows:
+      shell: pwsh
+      run: |
+        Write-Host "Validating Azure subscription and permissions..."
+
+  postprovision:
+    posix:
+      shell: sh
+      run: |
+        echo "Deployment complete! Review outputs for key information."
+    windows:
+      shell: pwsh
+      run: |
+        Write-Host "Deployment complete! Review outputs for key information."
