@@ -6,7 +6,7 @@ param(
     [string]$Location = "eastus",
     
     [Parameter(Mandatory=$true)]
-    [ValidateSet("defaults", "hub-spoke", "with-jumpbox", "with-jumpbox-windows", "with-app-gateway", "all")]
+    [ValidateSet("defaults", "hub-spoke", "with-jumpbox", "with-jumpbox-windows", "with-app-gateway")]
     [string]$TestScenario,
     
     [Parameter(Mandatory=$false)]
@@ -228,11 +228,7 @@ $testScenarios = @{
 }
 
 # Determine which tests to run
-$testsToRun = if ($TestScenario -eq "all") {
-    $testScenarios.Keys
-} else {
-    @($TestScenario)
-}
+$testsToRun = @($TestScenario)
 
 # Results tracking
 $results = @()
