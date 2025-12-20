@@ -122,7 +122,7 @@ param deployAgentPool bool = true
 // VARIABLES
 // ------------------
 var agwBackendFqdn = (empty(applicationGatewayBackendFqdn))
-  ? ''
+  ? (deploySampleApplication ? sampleApplication!.outputs.helloWorldAppFqdn : '')
   : applicationGatewayBackendFqdn
 
 // ------------------
