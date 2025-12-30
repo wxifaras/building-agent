@@ -282,7 +282,6 @@ az containerapp logs show \
 aca-lza/
 ├── main.bicep                          # Main subscription-level orchestrator
 ├── main.bicepparam                     # Default parameters for azd
-├── main.json                           # Compiled ARM template
 ├── README.md                           # This file
 ├── modules/
 │   ├── common/
@@ -290,42 +289,28 @@ aca-lza/
 │   │   └── naming-rules.json           # Naming abbreviations & region codes
 │   ├── networking/
 │   │   ├── deploy.spoke-vnet.bicep     # Spoke VNet, subnets, NSGs, routes
-│   │   ├── deploy.spoke-vnet.json      # Compiled networking template
 │   │   └── log-analytics.bicep         # Log Analytics workspace
 │   ├── supporting-services/
 │   │   ├── deploy.supporting-services.bicep    # Main supporting services orchestrator
-│   │   ├── deploy.supporting-services.json     # Compiled template
 │   │   ├── README.md                   # Supporting services documentation
 │   │   └── modules/                    # Individual service modules
 │   │       ├── app-config.bicep        # App Configuration service
-│   │       ├── app-config.json         # Compiled template
 │   │       ├── container-registry.bicep        # Azure Container Registry
-│   │       ├── container-registry.json         # Compiled template
 │   │       ├── cosmos-document-db.bicep        # Azure Cosmos DB
-│   │       ├── cosmos-document-db.json         # Compiled template
 │   │       ├── key-vault.bicep         # Azure Key Vault
-│   │       ├── key-vault.json          # Compiled template
 │   │       ├── redis-managed.bicep     # Azure Cache for Redis Enterprise
-│   │       ├── redis-managed.json      # Compiled template
-│   │       ├── storage.bicep           # Azure Storage Account
-│   │       └── storage.json            # Compiled template
+│   │       └── storage.bicep           # Azure Storage Account
 │   ├── container-apps/
 │   │   ├── deploy.aca-environment.bicep        # ACA environment & workload profiles
-│   │   ├── deploy.aca-environment.json         # Compiled template
 │   │   ├── deploy.sample-application.bicep     # Sample hello-world container app
 │   │   └── README.md                   # Container Apps documentation
 │   ├── application-gateway/
 │   │   ├── deploy.app-gateway.bicep            # App Gateway orchestrator
-│   │   ├── deploy.app-gateway.json             # Compiled template
 │   │   ├── app-gateway.module.bicep            # App Gateway configuration module
-│   │   ├── app-gateway.module.json             # Compiled template
-│   │   ├── app-gateway-cert.bicep              # Certificate & Key Vault integration
-│   │   └── app-gateway-cert.json               # Compiled template
+│   │   └── app-gateway-cert.bicep              # Certificate & Key Vault integration
 │   └── compute/
 │       ├── linux-vm.bicep              # Linux jumpbox (Ubuntu 22.04)
-│       ├── linux-vm.json               # Compiled template
-│       ├── windows-vm.bicep            # Windows jumpbox (Server 2022)
-│       └── windows-vm.json             # Compiled template
+│       └── windows-vm.bicep            # Windows jumpbox (Server 2022)
 ├── scripts/
 │   ├── generate-appgw-cert.ps1         # PowerShell script to generate self-signed cert
 │   └── run-tests.ps1                   # Test automation script
