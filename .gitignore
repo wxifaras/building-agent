@@ -220,5 +220,5 @@ src/storage-nodejs-quickstart/sampleimages/*
 # Azure Bicep compiled templates (generated from .bicep files)
 /infra/**/*.json
 # Keep hand-crafted parameter and configuration files
-!/infra/main.parameters.json
-!/infra/modules/common/naming-rules.json
+!/infra/aca-lza/main.parameters.json
+!/infra/aca-lza/modules/common/naming-rules.json

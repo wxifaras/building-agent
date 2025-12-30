@@ -59,9 +59,6 @@ param vmJumpboxOSType string = 'none'
 @description('Optional. CIDR to use for the virtual machine subnet. Required only when vmJumpboxOSType != "none".')
 param vmJumpBoxSubnetAddressPrefix string = '10.10.10.0/24'
 
-@description('Required. The CIDR to use for Deployment scripts subnet.')
-param deploymentSubnetAddressPrefix string
-
 @description('Optional. Define whether to route spoke-internal traffic within the spoke network. If false, traffic will be sent to the hub network. Default is false.')
 param routeSpokeTrafficInternally bool = false
 
@@ -164,7 +161,6 @@ module spoke 'modules/networking/deploy.spoke-vnet.bicep' = {
     spokeInfraSubnetAddressPrefix: spokeInfraSubnetAddressPrefix
     spokePrivateEndpointsSubnetAddressPrefix: spokePrivateEndpointsSubnetAddressPrefix
     spokeVNetAddressPrefixes: spokeVNetAddressPrefixes
-    deploymentSubnetAddressPrefix: deploymentSubnetAddressPrefix
     networkApplianceIpAddress: networkApplianceIpAddress
     routeSpokeTrafficInternally: routeSpokeTrafficInternally
     vmSize: vmSize

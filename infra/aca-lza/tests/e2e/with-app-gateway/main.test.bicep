@@ -1,5 +1,5 @@
-metadata name = 'With Linux Jumpbox.'
-metadata description = 'This instance deploys the module with a Linux jumpbox VM for internal access.'
+metadata name = 'Deployment with Application Gateway.'
+metadata description = 'This instance deploys the module with Application Gateway and a self-signed TLS certificate.'
 
 targetScope = 'subscription'
 
@@ -7,8 +7,8 @@ targetScope = 'subscription'
 // Parameters //
 // ========== //
 
-@description('A short identifier for the kind of deployment. Should be kept short to not run into resource-name length-constraints.')
-param serviceShort string = 'cajbx'
+@description('The short identifier for the kind of deployment. Should be kept short to not run into resource-name length-constraints.')
+param serviceShort string = 'cagw'
 
 @description('Optional. Unique suffix for resource names to avoid conflicts.')
 param uniqueSuffix string = ''
@@ -20,9 +20,15 @@ param password string = newGuid()
 @description('The location to deploy resources to.')
 param location string = deployment().location
 
+@description('The base64-encoded self-signed certificate for Application Gateway testing.')
+@secure()
+param base64Certificate string
+
 // ============== //
 // Test Execution //
 // ============== //
+
+var certificateName = 'appgwcert'
 
 module testDeployment '../../../main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-test-${serviceShort}'
@@ -32,11 +38,10 @@ module testDeployment '../../../main.bicep' = {
       environment: 'test'
     }
     location: location
-    vmSize: 'Standard_D2s_v3'
+    vmSize: 'Standard_B1s'
     vmAdminPassword: password
     vmAuthenticationType: 'password'
-    vmJumpboxOSType: 'linux'
-    deployZoneRedundantResources: false    
+    vmJumpboxOSType: 'none'
     vmJumpBoxSubnetAddressPrefix: '10.1.2.32/27'
     spokeVNetAddressPrefixes: [
       '10.1.0.0/21'
@@ -44,12 +49,10 @@ module testDeployment '../../../main.bicep' = {
     spokeInfraSubnetAddressPrefix: '10.1.0.0/23'
     spokePrivateEndpointsSubnetAddressPrefix: '10.1.2.0/27'
     spokeApplicationGatewaySubnetAddressPrefix: '10.1.3.0/24'
-    deploymentSubnetAddressPrefix: '10.1.4.0/24'
-    exposeContainerAppsWith: 'none'
-    deploySampleApplication: true
-    enableApplicationInsights: true    
-    deployAgentPool: false
-    storageAccountType: 'Standard_LRS'
+    enableApplicationInsights: true
+    exposeContainerAppsWith: 'applicationGateway'
+    base64Certificate: base64Certificate
+    applicationGatewayCertificateKeyName: certificateName
   }
 }
 

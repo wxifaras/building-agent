@@ -1,5 +1,5 @@
-metadata name = 'Using only defaults.'
-metadata description = 'This instance deploys the module with the minimum set of required parameters.'
+metadata name = 'With Windows Jumpbox.'
+metadata description = 'This instance deploys the module with a Windows jumpbox VM for internal access.'
 
 targetScope = 'subscription'
 
@@ -7,8 +7,8 @@ targetScope = 'subscription'
 // Parameters //
 // ========== //
 
-@description('The short identifier for the kind of deployment. Should be kept short to not run into resource-name length-constraints.')
-param serviceShort string = 'camin'
+@description('A short identifier for the kind of deployment. Should be kept short to not run into resource-name length-constraints.')
+param serviceShort string = 'cajbxw'
 
 @description('Optional. Unique suffix for resource names to avoid conflicts.')
 param uniqueSuffix string = ''
@@ -32,10 +32,11 @@ module testDeployment '../../../main.bicep' = {
       environment: 'test'
     }
     location: location
-    vmSize: 'Standard_B1s'
+    vmSize: 'Standard_D2s_v3'
     vmAdminPassword: password
     vmAuthenticationType: 'password'
-    vmJumpboxOSType: 'none'
+    vmJumpboxOSType: 'windows'
+    deployZoneRedundantResources: false    
     vmJumpBoxSubnetAddressPrefix: '10.1.2.32/27'
     spokeVNetAddressPrefixes: [
       '10.1.0.0/21'
@@ -43,10 +44,12 @@ module testDeployment '../../../main.bicep' = {
     spokeInfraSubnetAddressPrefix: '10.1.0.0/23'
     spokePrivateEndpointsSubnetAddressPrefix: '10.1.2.0/27'
     spokeApplicationGatewaySubnetAddressPrefix: '10.1.3.0/24'
-    deploymentSubnetAddressPrefix: '10.1.4.0/24'
-    enableApplicationInsights: true
     exposeContainerAppsWith: 'none'
+    deploySampleApplication: true
+    enableApplicationInsights: true    
   }
 }
 
-output testDeploymentOutputs object = testDeployment.outputs
+// ========== //
+// Outputs //
+// ========== //

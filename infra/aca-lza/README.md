@@ -37,12 +37,11 @@ Default parameters file for Azure Developer CLI (`azd`) deployments with:
 
 ### Networking (deploy.spoke-vnet.bicep)
 
-- **Spoke Virtual Network** with 5 subnets:
+- **Spoke Virtual Network** with 4 subnets:
   - Infrastructure Subnet (snet-aca) - Azure Container Apps
   - Private Endpoints Subnet (snet-pep) - Private endpoints for all services
   - Application Gateway Subnet (snet-agw) - Application Gateway (optional)
   - Jumpbox Subnet (snet-vm) - Optional Linux/Windows jumpbox
-  - Deployment Subnet (snet-deployment) - ACR deployment scripts
 - **Network Security Groups** for each subnet with security rules
 - **Route Table** for traffic management
 - **Log Analytics Workspace** with geo-replication support
@@ -109,7 +108,6 @@ Default parameters file for Azure Developer CLI (`azd`) deployments with:
 | `spokeInfraSubnetAddressPrefix` | string | CIDR for ACA subnet (e.g., `10.1.0.0/23`) |
 | `spokePrivateEndpointsSubnetAddressPrefix` | string | CIDR for private endpoints subnet |
 | `spokeApplicationGatewaySubnetAddressPrefix` | string | CIDR for App Gateway subnet |
-| `deploymentSubnetAddressPrefix` | string | CIDR for deployment scripts subnet |
 | `applicationGatewayCertificateKeyName` | string | Name for certificate in Key Vault |
 
 ### Optional Parameters
@@ -161,7 +159,6 @@ azd env set SPOKE_VNET_ADDRESS_PREFIX "10.1.0.0/16"
 azd env set SPOKE_INFRA_SUBNET_PREFIX "10.1.0.0/23"
 azd env set SPOKE_PEP_SUBNET_PREFIX "10.1.2.0/24"
 azd env set SPOKE_AGW_SUBNET_PREFIX "10.1.3.0/24"
-azd env set DEPLOYMENT_SUBNET_PREFIX "10.1.4.0/24"
 
 # Provision
 azd provision
@@ -282,33 +279,58 @@ az containerapp logs show \
 ### Module Directory Structure
 
 ```
-infra/
-├── main.bicep                          # Main orchestrator
-├── main.parameters.json                # azd parameter file
+aca-lza/
+├── main.bicep                          # Main subscription-level orchestrator
+├── main.bicepparam                     # Default parameters for azd
+├── main.json                           # Compiled ARM template
+├── README.md                           # This file
 ├── modules/
 │   ├── common/
-│   │   ├── naming.bicep               # Resource naming convention generator
-│   │   └── naming-rules.json          # Naming abbreviations & region codes
+│   │   ├── naming.bicep                # Resource naming convention generator
+│   │   └── naming-rules.json           # Naming abbreviations & region codes
 │   ├── networking/
-│   │   ├── deploy.spoke-vnet.bicep    # Spoke VNet, subnets, NSGs, routes
-│   │   └── log-analytics.bicep        # Log Analytics workspace
+│   │   ├── deploy.spoke-vnet.bicep     # Spoke VNet, subnets, NSGs, routes
+│   │   ├── deploy.spoke-vnet.json      # Compiled networking template
+│   │   └── log-analytics.bicep         # Log Analytics workspace
 │   ├── supporting-services/
-│   │   ├── deploy.supporting-services.bicep  # Main supporting services orchestrator
-│   │   └── modules/                   # Individual service modules
+│   │   ├── deploy.supporting-services.bicep    # Main supporting services orchestrator
+│   │   ├── deploy.supporting-services.json     # Compiled template
+│   │   ├── README.md                   # Supporting services documentation
+│   │   └── modules/                    # Individual service modules
+│   │       ├── app-config.bicep        # App Configuration service
+│   │       ├── app-config.json         # Compiled template
+│   │       ├── container-registry.bicep        # Azure Container Registry
+│   │       ├── container-registry.json         # Compiled template
+│   │       ├── cosmos-document-db.bicep        # Azure Cosmos DB
+│   │       ├── cosmos-document-db.json         # Compiled template
+│   │       ├── key-vault.bicep         # Azure Key Vault
+│   │       ├── key-vault.json          # Compiled template
+│   │       ├── redis-managed.bicep     # Azure Cache for Redis Enterprise
+│   │       ├── redis-managed.json      # Compiled template
+│   │       ├── storage.bicep           # Azure Storage Account
+│   │       └── storage.json            # Compiled template
 │   ├── container-apps/
-│   │   ├── deploy.aca-environment.bicep      # ACA environment & workload profiles
-│   │   ├── deploy.sample-application.bicep   # Sample hello-world app
-│   │   └── README.md
+│   │   ├── deploy.aca-environment.bicep        # ACA environment & workload profiles
+│   │   ├── deploy.aca-environment.json         # Compiled template
+│   │   ├── deploy.sample-application.bicep     # Sample hello-world container app
+│   │   └── README.md                   # Container Apps documentation
 │   ├── application-gateway/
-│   │   ├── deploy.app-gateway.bicep          # App Gateway orchestrator
-│   │   ├── app-gateway.module.bicep          # App Gateway configuration
-│   │   ├── app-gateway-cert.bicep            # Certificate & Key Vault integration
-│   │   └── README.md
+│   │   ├── deploy.app-gateway.bicep            # App Gateway orchestrator
+│   │   ├── deploy.app-gateway.json             # Compiled template
+│   │   ├── app-gateway.module.bicep            # App Gateway configuration module
+│   │   ├── app-gateway.module.json             # Compiled template
+│   │   ├── app-gateway-cert.bicep              # Certificate & Key Vault integration
+│   │   └── app-gateway-cert.json               # Compiled template
 │   └── compute/
-│       ├── linux-vm.bicep             # Linux jumpbox deployment
-│       └── windows-vm.bicep           # Windows jumpbox deployment
+│       ├── linux-vm.bicep              # Linux jumpbox (Ubuntu 22.04)
+│       ├── linux-vm.json               # Compiled template
+│       ├── windows-vm.bicep            # Windows jumpbox (Server 2022)
+│       └── windows-vm.json             # Compiled template
+├── scripts/
+│   ├── generate-appgw-cert.ps1         # PowerShell script to generate self-signed cert
+│   └── run-tests.ps1                   # Test automation script
 └── tests/
-    └── e2e/                           # End-to-end test scenarios
+    └── e2e/                            # End-to-end test scenarios
 ```
 
 ### Detailed Module Descriptions
@@ -387,93 +409,132 @@ Deploys a sample "hello world" container app for testing:
 Subscription-level orchestrator that:
 
 - Creates user-assigned managed identity for App Gateway
-- Deploys certificate to Key Vault via `app-gateway-cert.bicep`
-- Deploys public IP address
+- Deploys TLS certificate management via `app-gateway-cert.bicep`
+- Creates public IP address (standard SKU, zone-redundant)
 - Calls `app-gateway.module.bicep` for App Gateway configuration
-- Creates WAF policy
+- Creates WAF (Web Application Firewall) policy with OWASP rules
 
 #### **modules/application-gateway/app-gateway.module.bicep**
 
 Configures Application Gateway v2 with:
 
-- WAF_v2 SKU with 3 instances
-- Backend pool pointing to Container Apps
+- WAF_v2 SKU with configurable instance count (default: 3)
+- Backend pool pointing to Container Apps environment
 - HTTPS listener with TLS certificate from Key Vault
-- Health probe configuration
-- SSL policy (TLS 1.2+, secure ciphers)
-- Zone redundancy (3 zones)
+- HTTP health probe configuration
+- SSL/TLS policy (minimum TLS 1.2, secure ciphers)
+- Zone redundancy across availability zones
+- Request/response rules for header manipulation
 
 #### **modules/application-gateway/app-gateway-cert.bicep**
 
-Manages TLS certificate storage:
+Manages TLS certificate storage and integration:
 
-- Stores PFX certificate in Key Vault as secret
-- Creates RBAC role assignment (Key Vault Secrets User)
-- Outputs versioned secret URI for App Gateway reference
-- Handles cross-resource-group deployment (cert in spoke, KV in spoke)
+- Accepts PFX certificate data and password
+- Stores certificate in Key Vault as secret
+- Creates RBAC role assignment (Key Vault Secrets User) for App Gateway identity
+- Outputs versioned Key Vault secret URI for App Gateway reference
+- Handles cross-resource deployment (certificate managed at spoke level)
+- Supports both self-signed (dev/test) and production certificates
 
 #### **modules/compute/linux-vm.bicep**
 
 Deploys Linux jumpbox VM with:
 
-- Ubuntu 22.04 LTS
-- SSH or password authentication
-- Integration with Bastion (if provided)
-- NSG with SSH access rules
-- Optional public IP
+- Ubuntu 22.04 LTS latest image
+- System-assigned managed identity
+- SSH public key or password authentication
+- Network interface in jumpbox subnet
+- NSG with SSH (port 22) access rules
+- Optional Azure Bastion integration
+- Optional public IP address
+- Cloud-init user data script support
 
 #### **modules/compute/windows-vm.bicep**
 
 Deploys Windows jumpbox VM with:
 
-- Windows Server 2022
-- Password authentication
-- RDP access via Bastion or public IP
-- NSG with RDP access rules
+- Windows Server 2022 latest image
+- System-assigned managed identity
+- Password authentication (no SSH)
+- Network interface in jumpbox subnet
+- NSG with RDP (port 3389) access rules
+- Optional Azure Bastion integration (recommended)
+- Optional public IP address
+- Custom script extension support (PowerShell/batch)
 
-### Test Scenarios
+## Test Scenarios
 
-#### **tests/e2e/defaults/**
+End-to-end test scenarios are located in `tests/e2e/` and validate various deployment configurations:
 
-Basic deployment with:
+### **tests/e2e/defaults/**
 
-- Spoke VNet only
-- All supporting services
+Basic deployment with minimal required resources:
+
+- Spoke VNet only (no hub peering)
+- All supporting services (ACR, Key Vault, Storage)
+- Container Apps environment with consumption profile
+- No jumpbox VM
+- No Application Gateway
+- No optional services (Cosmos, Redis, App Config)
+- **Use case**: Quick validation, dev/test environments
+
+### **tests/e2e/hub-spoke/**
+
+Hub-and-spoke topology deployment:
+
+- Spoke VNet with hub VNet peering
+- Optional network appliance routing
+- All supporting services with private endpoints
 - Container Apps environment
-- No jumpbox, no App Gateway
+- Optional Azure Bastion integration
+- No jumpbox or App Gateway
+- **Use case**: Enterprise network architectures, multi-spoke deployments
 
-#### **tests/e2e/hub-spoke/**
+### **tests/e2e/with-jumpbox/**
 
-Hub-and-spoke topology with:
+Deployment including Linux jumpbox:
 
-- VNet peering to existing hub
-- Network appliance routing (optional)
-- Bastion integration (optional)
+- Spoke VNet with Linux VM jumpbox
+- SSH access for private resource troubleshooting
+- All supporting services with private endpoints
+- Container Apps environment
+- Optional public IP on jumpbox for direct SSH access
+- **Use case**: Private network access, SSH-based administration
 
-#### **tests/e2e/with-jumpbox/**
+### **tests/e2e/with-app-gateway/**
 
-Includes Linux jumpbox for:
+Full production-like deployment with Application Gateway:
 
-- SSH access to private resources
-- Testing private endpoint connectivity
-- Troubleshooting network issues
-
-#### **tests/e2e/with-jumpbox-windows/**
-
-Includes Windows jumpbox with RDP access
-
-#### **tests/e2e/with-app-gateway/**
-
-Full deployment with:
-
-- Application Gateway + WAF
+- Spoke VNet with all subnets
+- Application Gateway with WAF (v2 SKU)
 - Self-signed TLS certificate (for testing)
-- Public HTTPS endpoint
+- Public HTTPS endpoint to Container Apps
+- All supporting services with private endpoints
+- Application Insights enabled
+- Zone-redundant resources (where supported)
+- **Use case**: Public-facing applications, production validation
+
+### Test Execution
 
 Each test scenario includes:
 
-- `main.test.bicep` - Test-specific parameters
-- Separate deployment from main infrastructure
+- `main.test.bicep` or `main.bicepparam` - Test-specific parameters
+- Parameter values optimized for validation (smaller SKUs, reduced costs)
+- Separate deployment run from main infrastructure
+- Diagnostic settings for troubleshooting
+
+Run tests individually or via automation:
+
+```powershell
+# Run all tests
+.\scripts\run-tests.ps1
+
+# Run specific scenario
+azd provision --config azure.yaml
+```
+
+---
 
 ## Related Documentation
 

@@ -1,12 +1,12 @@
-name: building-agent
+name: building-agent-aca-landing-zone
 
 metadata:
-  template: building-agent@0.0.1
+  template: building-agent-aca-landing-zone@0.0.1
 
 infra:
   provider: bicep
-  path: infra
-  module: main
+  path: infra/aca-lza
+  module: ./main
   deploymentScope: subscription
 
 # Hooks for pre/post deployment actions
@@ -25,8 +25,8 @@ hooks:
     posix:
       shell: sh
       run: |
-        echo "Deployment complete! Review outputs for key information."
+        echo "ACA deployment complete! Review outputs for key information."
     windows:
       shell: pwsh
       run: |
-        Write-Host "Deployment complete! Review outputs for key information."
+        Write-Host "ACA deployment complete! Review outputs for key information."

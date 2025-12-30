@@ -1,5 +1,5 @@
-metadata name = 'Deployment with Application Gateway.'
-metadata description = 'This instance deploys the module with Application Gateway and a self-signed TLS certificate.'
+metadata name = 'Using only defaults.'
+metadata description = 'This instance deploys the module with the minimum set of required parameters.'
 
 targetScope = 'subscription'
 
@@ -8,7 +8,7 @@ targetScope = 'subscription'
 // ========== //
 
 @description('The short identifier for the kind of deployment. Should be kept short to not run into resource-name length-constraints.')
-param serviceShort string = 'cagw'
+param serviceShort string = 'camin'
 
 @description('Optional. Unique suffix for resource names to avoid conflicts.')
 param uniqueSuffix string = ''
@@ -20,15 +20,9 @@ param password string = newGuid()
 @description('The location to deploy resources to.')
 param location string = deployment().location
 
-@description('The base64-encoded self-signed certificate for Application Gateway testing.')
-@secure()
-param base64Certificate string
-
 // ============== //
 // Test Execution //
 // ============== //
-
-var certificateName = 'appgwcert'
 
 module testDeployment '../../../main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-test-${serviceShort}'
@@ -49,11 +43,8 @@ module testDeployment '../../../main.bicep' = {
     spokeInfraSubnetAddressPrefix: '10.1.0.0/23'
     spokePrivateEndpointsSubnetAddressPrefix: '10.1.2.0/27'
     spokeApplicationGatewaySubnetAddressPrefix: '10.1.3.0/24'
-    deploymentSubnetAddressPrefix: '10.1.4.0/24'
     enableApplicationInsights: true
-    exposeContainerAppsWith: 'applicationGateway'
-    base64Certificate: base64Certificate
-    applicationGatewayCertificateKeyName: certificateName
+    exposeContainerAppsWith: 'none'
   }
 }
 

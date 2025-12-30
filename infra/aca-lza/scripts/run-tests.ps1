@@ -136,7 +136,7 @@ function New-TestSSHKey {
         Push-Location $tempDir
         
         try {
-            # Generate SSH key pair using ssh-keygen (same approach as New-SSHKey.ps1)
+            # Generate SSH key pair using ssh-keygen
             Write-Host "Running: ssh-keygen -f id_rsa -N '' -C 'test@jumpbox'" -ForegroundColor Gray
             $output = & ssh-keygen -f id_rsa -N "" -C "test@jumpbox" 2>&1
             
