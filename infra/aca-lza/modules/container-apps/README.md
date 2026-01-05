@@ -1,52 +1,152 @@
-# Deploy the Azure Container Apps Environment
+# Azure Container Apps Environment
 
-With your spoke virtual network in place and the services that Azure Containers Apps needs in this architecture in place, you're ready to deploy the application platform.
+This module deploys the Azure Container Apps Environment along with supporting infrastructure for logging and observability.
 
-## Expected results
+## Expected Results
 
-The application platform, Azure Containers Apps, and its logging sinks within Azure Monitor will now be deployed. The workload is not deployed as part of step. Non-mission critical workload lifecycles are usually not tied to the lifecycle of the application platform, and as such are deployed isolated from infrastructure deployments, such as this one. Some cross-cutting concerns and platform feature enablement is usually handled however at this stage.
+The application platform, Azure Container Apps, and its logging integration within Azure Monitor will be deployed. This includes:
 
-![A picture of the resources of this architecture, now with the application platform.](./media/container-apps-environment.png)
+- **Container Apps Environment** with workload profiles (consumption and dedicated)
+- **Log Analytics Workspace** integration for centralized logging
+- **Application Insights** (optional) for advanced monitoring
+- **Private DNS Zone** for internal Container Apps FQDN resolution
 
-### Resources
+### Resources Deployed
 
-- Container Apps Environment Environment
-- Log Analytics Workspace
+- Container Apps Environment
+- Log Analytics Workspace (linked)
 - Application Insights (optional)
-- Private DNS Zone for Container Apps Environment
+- Private DNS Zone for Container Apps internal domain
 
-## Steps
+## Module Files
 
-1. Create the Azure Container Apps application platform resources.
+- **deploy.aca-environment.bicep** - Main module orchestrator
+- **deploy.sample-application.bicep** - Optional sample hello-world container app
 
-   ```bash
-   RESOURCEID_VNET_HUB=$(az deployment sub show -n acalza01-hub --query properties.outputs.hubVNetId.value -o tsv)
-   RESOURCENAME_RESOURCEGROUP_SPOKE=$(az deployment sub show -n acalza01-spokenetwork --query properties.outputs.spokeResourceGroupName.value -o tsv)
-   RESOURCENAME_VNET_SPOKE=$(az deployment sub show -n acalza01-spokenetwork --query properties.outputs.spokeVNetName.value -o tsv)
-   LOG_ANALYTICS_WS_ID=$(az deployment sub show -n acalza01-spokenetwork --query properties.outputs.logAnalyticsWorkspaceId.value -o tsv)
+## Parameters
 
-   echo RESOURCEID_VNET_HUB: $RESOURCEID_VNET_HUB && \
-   echo RESOURCENAME_RESOURCEGROUP_SPOKE: $RESOURCENAME_RESOURCEGROUP_SPOKE && \
-   echo RESOURCENAME_VNET_SPOKE: $RESOURCENAME_VNET_SPOKE && \
-   echo LOG_ANALYTICS_WS_ID: $LOG_ANALYTICS_WS_ID
+### Required Parameters
 
-   # [This takes about 11 minutes to run.]
-   az deployment group create \
-      -n acalza01-appplat \
-      -g $RESOURCENAME_RESOURCEGROUP_SPOKE \
-      -f 04-container-apps-environment/deploy.aca-environment.bicep \
-      -p 04-container-apps-environment/deploy.aca-environment.parameters.jsonc \
-      -p hubVNetId=${RESOURCEID_VNET_HUB} spokeVNetName=${RESOURCENAME_VNET_SPOKE} enableApplicationInsights=true enableDaprInstrumentation=true \
-      -p logAnalyticsWorkspaceId=${LOG_ANALYTICS_WS_ID}
-   ```
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `location` | string | Azure region for deployment |
+| `spokeVNetName` | string | Name of the spoke VNet |
+| `spokeResourceGroupName` | string | Name of the spoke resource group |
+| `spokeInfraSubnetId` | string | Resource ID of the infrastructure subnet |
+| `logAnalyticsWorkspaceId` | string | Resource ID of Log Analytics workspace |
 
-1. Explore your final infrastructure. *Optional.*
+### Optional Parameters
 
-   Now would be a good time to familiarize yourself with all core resources that are part of this architecture, as they are all deployed. This includes the networking layer, the application platform, and all supporting resources. It does not include any of the resources that are specific to a workload (such as public Internet ingress through an application gateway). Check out the following resource groups in the [Azure portal](https://portal.azure.com).
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `workloadName` | string | `aca-lza` | Workload identifier (2-10 chars) |
+| `environment` | string | `test` | Environment name (dev, test, prod) |
+| `enableApplicationInsights` | bool | `true` | Deploy Application Insights |
+| `deploySampleApplication` | bool | `false` | Deploy sample hello-world app |
+| `containerAppsEnvironmentName` | string | generated | Custom environment name |
 
-   ```bash
-   RESOURCENAME_RESOURCEGROUP_HUB=$(az deployment sub show -n acalza01-hub --query properties.outputs.resourceGroupName.value -o tsv)
+## Usage
 
-   echo Hub Resource Group: $RESOURCENAME_RESOURCEGROUP_HUB && \
-   echo Spoke Resource Group: $RESOURCENAME_RESOURCEGROUP_SPOKE
-   ```
+This module is called by the main orchestrator (`main.bicep`) with all necessary parameters. To deploy independently:
+
+```bash
+# Set variables
+LOCATION="eastus"
+SPOKE_RG="rg-aca-lza-spoke-test"
+SPOKE_VNET="vnet-aca-lza-spoke"
+INFRA_SUBNET_ID="/subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.Network/virtualNetworks/{vnet}/subnets/snet-aca"
+LAW_ID="/subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.OperationalInsights/workspaces/{workspace}"
+
+# Deploy
+az deployment group create \
+  --resource-group $SPOKE_RG \
+  --template-file deploy.aca-environment.bicep \
+  --parameters \
+    location=$LOCATION \
+    spokeVNetName=$SPOKE_VNET \
+    spokeResourceGroupName=$SPOKE_RG \
+    spokeInfraSubnetId=$INFRA_SUBNET_ID \
+    logAnalyticsWorkspaceId=$LAW_ID \
+    enableApplicationInsights=true \
+    deploySampleApplication=true
+```
+
+## Sample Application
+
+If `deploySampleApplication=true`, a sample container app is deployed:
+
+- **Image**: `mcr.microsoft.com/k8se/quickstart:latest`
+- **FQDN**: `myapp.internal.<env-id>.<region>.azurecontainerapps.io`
+- **Ingress**: HTTP enabled, publicly accessible within VNet
+- **Identity**: Uses centralized managed identity from supporting services
+
+## Outputs
+
+| Output | Type | Description |
+|--------|------|-------------|
+| `containerAppsEnvironmentId` | string | Resource ID of the ACA environment |
+| `containerAppsEnvironmentName` | string | Name of the ACA environment |
+| `containerAppsEnvironmentDefaultDomain` | string | Default domain (*.internal.<env-id>.<region>.azurecontainerapps.io) |
+| `containerAppsEnvironmentStaticIp` | string | Static IP address of the environment |
+
+## Workload Profiles
+
+The module creates both consumption and dedicated workload profiles:
+
+- **Consumption Profile** (`consumption`) - Pay-per-use, suitable for variable workloads
+- **Dedicated Profile** (`dedicated`) - Reserved compute, suitable for stable workloads
+
+## Logging & Monitoring
+
+### Log Analytics Integration
+
+- All Container Apps logs automatically stream to Log Analytics workspace
+- Queryable via KQL (Kusto Query Language)
+- Retention period inherited from workspace configuration
+
+### Application Insights (Optional)
+
+When enabled, Application Insights provides:
+
+- Application performance monitoring (APM)
+- Dependency tracking
+- Exception tracking
+- Custom metrics
+
+Query Application Insights:
+
+```bash
+az monitor app-insights query \
+  --resource-group $SPOKE_RG \
+  --app $APP_INSIGHTS_NAME \
+  --analytics-query "traces | where message contains 'error' | count"
+```
+
+## Best Practices
+
+- ✅ Use private DNS zones for internal app communication
+- ✅ Enable Application Insights for production workloads
+- ✅ Configure appropriate workload profiles based on resource requirements
+- ✅ Use managed identities for app authentication
+- ✅ Enable diagnostic settings for comprehensive logging
+- ✅ Regularly review Log Analytics queries for insights
+
+## Troubleshooting
+
+### Container App Cannot Reach Internal FQDN
+
+Ensure private DNS zone is linked to spoke VNet and firewall rules allow DNS queries.
+
+### High Memory Usage
+
+Check workload profile allocation and container memory limits.
+
+### Slow Startup Times
+
+Verify Application Insights connection and network latency to Log Analytics workspace.
+
+## Related Documentation
+
+- [Container Apps documentation](https://learn.microsoft.com/azure/container-apps/)
+- [Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/log-analytics-workspace-overview)
+- [Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview)

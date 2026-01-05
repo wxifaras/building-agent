@@ -181,14 +181,7 @@ az containerapp show \
 
 ## Expected Results
 
-| Test Scenario | Resources Deployed | Deployment Time | Cost (USD/day) |
-|---------------|-------------------|-----------------|----------------|
-| defaults | ~15 resources | ~10 min | ~$5 |
-| hub-spoke | ~20 resources | ~12 min | ~$6 |
-| with-app-gateway | ~25 resources | ~15 min | ~$10 |
-| with-jumpbox | ~18 resources | ~12 min | ~$7 |
-
-*Cost estimates are approximate and based on East US region*
+All test scenarios should complete successfully with the specified resources deployed.
 
 ## CI/CD Integration
 

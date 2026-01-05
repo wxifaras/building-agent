@@ -27,7 +27,7 @@ The main subscription-level deployment orchestrator that:
 - Manages dependencies between modules
 - Provides all output values
 
-#### **main.parameters.json**
+#### **main.bicepparam**
 
 Default parameters file for Azure Developer CLI (`azd`) deployments with:
 
