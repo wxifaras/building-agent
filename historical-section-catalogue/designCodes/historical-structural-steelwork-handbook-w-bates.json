@@ -1,0 +1,13 @@
+{
+  "docType": "designCode",
+  "id": "89ac043b-97cb-45a1-99aa-ea20a9b74ab7",
+  "slug": "historical-structural-steelwork-handbook-w-bates",
+  "designCodeId": "historical-structural-steelwork-handbook-w-bates",
+  "label": "Historical Structural Steelwork Handbook, W. Bates",
+  "applicability": {
+    "periodStartYear": 1800,
+    "periodEndYear": 1909
+  },
+  "sourceType": "designCode",
+  "rawLabel": "1800-1909: Historical Structural Steelwork Handbook, W. Bates"
+}

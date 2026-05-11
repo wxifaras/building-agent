@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "4d2c2d5c-87be-4597-af86-8870dfd4ca7f",
+  "slug": "selection-index__istructe-1927__NBSB-17__beam__1921-1932",
+  "designCodeId": "istructe-1927",
+  "sectionKey": "NBSB 17",
+  "sectionSlug": "NBSB-17",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1921,
+    "periodEndYear": 1932
+  },
+  "designCodeApplicability": {
+    "periodStartYear": 1927,
+    "periodEndYear": 1933
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__istructe-1927__NBSB-17__beam__1921-1932",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 1219.2,
+      "unit": "tons",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 1219.2,
+      "unit": "tons",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 150.00799999999998,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 308.562471,
+    "bendingMomentCompressionKnM": 308.562471,
+    "shearForceKn": 1494.68217
+  }
+}

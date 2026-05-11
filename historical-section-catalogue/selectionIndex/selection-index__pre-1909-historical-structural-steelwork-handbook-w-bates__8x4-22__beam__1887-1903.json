@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "23e56f0c-13a5-484c-b968-acc942d4a799",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__8x4-22__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "8x4 22",
+  "sectionSlug": "8x4-22",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__8x4-22__beam__1887-1903",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 113.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 113.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 39.3,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 28.624028,
+    "bendingMomentCompressionKnM": 28.624028,
+    "shearForceKn": 391.585844
+  }
+}

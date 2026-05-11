@@ -1,0 +1,148 @@
+{
+  "docType": "capacityProfile",
+  "id": "b22aac32-6056-4b02-b452-c49b1477d8cb",
+  "slug": "capacity-profile__istructe-1927__NBSB-12__column__1921-1932",
+  "designCodeId": "istructe-1927",
+  "sectionKey": "NBSB 12",
+  "sectionSlug": "NBSB-12",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial stress in compression, pc, fo column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 70.62,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 703.658837
+      },
+      {
+        "heightM": 1.5,
+        "value": 70.62,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 703.658837
+      },
+      {
+        "heightM": 2.0,
+        "value": 64.735,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 645.020601
+      },
+      {
+        "heightM": 2.5,
+        "value": 58.849999999999994,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 586.382364
+      },
+      {
+        "heightM": 3.0,
+        "value": 47.08,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 469.105891
+      },
+      {
+        "heightM": 3.5,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 4.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 5.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 6.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 7.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 8.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 9.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 10.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 11.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 12.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 13.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      },
+      {
+        "heightM": 14.0,
+        "value": 35.31,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 351.829419
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1927,
+    "designCodePeriodEndYear": 1933
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1921,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1921",
+    "designCodeLabel": "Institution of Structural Engineers Report on Steelwork for Buildings 1927",
+    "table": "Sheet1",
+    "rowKey": "NBSB 12"
+  }
+}

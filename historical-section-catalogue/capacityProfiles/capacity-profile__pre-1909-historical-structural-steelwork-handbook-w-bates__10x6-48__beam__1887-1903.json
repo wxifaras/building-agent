@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "e36da715-b3b8-4902-8092-edb7a04d9d82",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__10x6-48__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "10x6 48",
+  "sectionSlug": "10x6-48",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 287.95,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 287.95,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 85.62,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 72.876118,
+    "bendingMomentCompressionKnM": 72.876118,
+    "shearForceKn": 853.119083
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "10x6 48"
+  }
+}

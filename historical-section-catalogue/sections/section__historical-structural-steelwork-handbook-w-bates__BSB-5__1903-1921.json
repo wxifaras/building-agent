@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "ad65d634-d3e9-46c5-944d-113907f7f42f",
+  "slug": "section__historical-structural-steelwork-handbook-w-bates__BSB-5__1903-1921",
+  "designCodeId": "historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "BSB 5",
+  "sectionSlug": "BSB-5",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1903,
+    "periodEndYear": 1921
+  },
+  "source": {
+    "standard": "British Standard 4",
+    "standardYear": 1903,
+    "label": "Properties of Beams to British Standard 4 - 1903"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "British Standard 4",
+      "standardYear": 1903,
+      "label": "Properties of Beams to British Standard 4 - 1903"
+    },
+    {
+      "memberType": "column",
+      "standard": "British Standard 4",
+      "standardYear": 1903,
+      "label": "Properties of Beams to British Standard 4 - 1903"
+    }
+  ]
+}

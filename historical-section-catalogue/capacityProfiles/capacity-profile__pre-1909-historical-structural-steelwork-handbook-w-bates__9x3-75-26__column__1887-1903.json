@@ -1,0 +1,71 @@
+{
+  "docType": "capacityProfile",
+  "id": "20988f45-ddca-48eb-b75f-0ad12b0e84a4",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__9x3-75-26__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "9x3.75 26",
+  "sectionSlug": "9x3-75-26",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 44.37756642857143,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 442.178799
+      },
+      {
+        "heightM": 1.5,
+        "value": 35.900055,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 357.708736
+      },
+      {
+        "heightM": 2.0,
+        "value": 27.42254357142857,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 273.238673
+      },
+      {
+        "heightM": 2.5,
+        "value": 18.945032142857148,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 188.768611
+      },
+      {
+        "heightM": 3.0,
+        "value": 10.467520714285717,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 104.298548
+      },
+      {
+        "heightM": 3.5,
+        "value": 1.9900092857142924,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 19.828485
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "9x3.75 26"
+  }
+}

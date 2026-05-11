@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "5fcf523f-78ab-4aa2-ba29-e5a4c3b32547",
+  "slug": "capacity-profile__lcc-1909__NBSB-16__beam__1921-1932",
+  "designCodeId": "lcc-1909",
+  "sectionKey": "NBSB 16",
+  "sectionSlug": "NBSB-16",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 919.5,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 919.5,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 105.16000000000001,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 232.712592,
+    "bendingMomentCompressionKnM": 232.712592,
+    "shearForceKn": 1047.815963
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1909,
+    "designCodePeriodEndYear": 1948
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1921,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1921",
+    "designCodeLabel": "London County Council (General Powers) Act 1909",
+    "table": "Sheet1",
+    "rowKey": "NBSB 16"
+  }
+}

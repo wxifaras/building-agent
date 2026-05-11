@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "25f0d6a9-6109-4ffd-9fe3-84d3b134ddfe",
+  "slug": "section__pre-1909-historical-structural-steelwork-handbook-w-bates__8x5-31-25__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "8x5 31.25",
+  "sectionSlug": "8x5-31-25",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "source": {
+    "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "standardYear": 1887,
+    "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    },
+    {
+      "memberType": "column",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "docType": "capacityProfile",
+  "id": "7ae11797-f6e4-40d9-82ec-39eee77e8cfa",
+  "slug": "capacity-profile__redpath-brown-1909__NBSHB-4__column__1921-1932",
+  "designCodeId": "redpath-brown-1909",
+  "sectionKey": "NBSHB 4",
+  "sectionSlug": "NBSHB-4",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial stress in compression, pc, fo column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 61.079,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 608.592157
+      },
+      {
+        "heightM": 1.5,
+        "value": 51.809000000000005,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 516.225725
+      },
+      {
+        "heightM": 2.0,
+        "value": 51.809000000000005,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 516.225725
+      },
+      {
+        "heightM": 2.5,
+        "value": 41.303,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 411.543769
+      },
+      {
+        "heightM": 3.0,
+        "value": 31.827,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 317.124749
+      },
+      {
+        "heightM": 3.5,
+        "value": 31.827,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 317.124749
+      },
+      {
+        "heightM": 4.0,
+        "value": 24.514,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 244.257898
+      },
+      {
+        "heightM": 5.0,
+        "value": 15.244000000000002,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 151.891466
+      },
+      {
+        "heightM": 6.0,
+        "value": 12.360000000000001,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 123.155243
+      },
+      {
+        "heightM": 7.0,
+        "value": 10.197000000000001,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 101.603075
+      },
+      {
+        "heightM": 8.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 9.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 10.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 11.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 12.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 13.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 14.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1909,
+    "designCodePeriodEndYear": 1937
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1921,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1921",
+    "designCodeLabel": "Redpath Brown & Co Ltd",
+    "table": "Sheet1",
+    "rowKey": "NBSHB 4"
+  }
+}

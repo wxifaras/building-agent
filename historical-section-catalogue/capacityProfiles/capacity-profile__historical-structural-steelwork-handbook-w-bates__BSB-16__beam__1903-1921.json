@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "c1bb7019-03a5-40d8-ab8c-cf4e9d92bd84",
+  "slug": "capacity-profile__historical-structural-steelwork-handbook-w-bates__BSB-16__beam__1903-1921",
+  "designCodeId": "historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "BSB 16",
+  "sectionSlug": "BSB-16",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 331.825,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 331.825,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 102.35999999999999,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 83.980267,
+    "bendingMomentCompressionKnM": 83.980267,
+    "shearForceKn": 1019.916717
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1800,
+    "designCodePeriodEndYear": 1909
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1903,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1903",
+    "designCodeLabel": "Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "BSB 16"
+  }
+}

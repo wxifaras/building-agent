@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "59022fa9-2d6a-474e-8623-9cc9293cbd83",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__12x6-62__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "12x6 62",
+  "sectionSlug": "12x6-62",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__12x6-62__beam__1887-1903",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 438.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 438.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 110.69999999999999,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 110.876984,
+    "bendingMomentCompressionKnM": 110.876984,
+    "shearForceKn": 1103.016614
+  }
+}

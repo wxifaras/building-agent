@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "587d4729-812b-4d08-9abf-c6ccd9229e90",
+  "slug": "selection-index__lcc-1909__BSB-8__beam__1903-1921",
+  "designCodeId": "lcc-1909",
+  "sectionKey": "BSB 8",
+  "sectionSlug": "BSB-8",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1903,
+    "periodEndYear": 1921
+  },
+  "designCodeApplicability": {
+    "periodStartYear": 1909,
+    "periodEndYear": 1948
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__lcc-1909__BSB-8__beam__1903-1921",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 50.550000000000004,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 50.550000000000004,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 19.415,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 12.793498,
+    "bendingMomentCompressionKnM": 12.793498,
+    "shearForceKn": 193.451378
+  }
+}

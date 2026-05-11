@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "93cbaecc-3847-4d6c-b58a-d21e1988e7d2",
+  "slug": "section__lcc-1909__NBSHB-9__1921-1932",
+  "designCodeId": "lcc-1909",
+  "sectionKey": "NBSHB 9",
+  "sectionSlug": "NBSHB-9",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1921,
+    "periodEndYear": 1932
+  },
+  "source": {
+    "standard": "British Standard 4",
+    "standardYear": 1921,
+    "label": "Properties of Beams to British Standard 4 - 1921"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "British Standard 4",
+      "standardYear": 1921,
+      "label": "Properties of Beams to British Standard 4 - 1921"
+    },
+    {
+      "memberType": "column",
+      "standard": "British Standard 4",
+      "standardYear": 1921,
+      "label": "Properties of Beams to British Standard 4 - 1921"
+    }
+  ]
+}

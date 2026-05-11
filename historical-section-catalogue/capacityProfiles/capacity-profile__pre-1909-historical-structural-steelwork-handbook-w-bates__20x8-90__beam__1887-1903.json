@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "b470833e-50a4-471f-99ac-da4d8c73e4d5",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__20x8-90__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "20x8 90",
+  "sectionSlug": "20x8-90",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 1121.25,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 1121.25,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 160.68,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 283.772696,
+    "bendingMomentCompressionKnM": 283.772696,
+    "shearForceKn": 1601.018153
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "20x8 90"
+  }
+}

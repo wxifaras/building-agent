@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "40e8b14b-6410-472b-9233-15fd0c882eb6",
+  "slug": "selection-index__historical-structural-steelwork-handbook-w-bates__BSB-15__beam__1903-1921",
+  "designCodeId": "historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "BSB 15",
+  "sectionSlug": "BSB-15",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1903,
+    "periodEndYear": 1921
+  },
+  "designCodeApplicability": {
+    "periodStartYear": 1800,
+    "periodEndYear": 1909
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__historical-structural-steelwork-handbook-w-bates__BSB-15__beam__1903-1921",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 117.0,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 117.0,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 37.08,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 29.611064,
+    "bendingMomentCompressionKnM": 29.611064,
+    "shearForceKn": 369.465728
+  }
+}

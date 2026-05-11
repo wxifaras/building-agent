@@ -1,0 +1,71 @@
+{
+  "docType": "capacityProfile",
+  "id": "3d2d6520-87a8-4b4b-9506-8a780baace96",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__7x3-75-18__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "7x3.75 18",
+  "sectionSlug": "7x3-75-18",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 30.573083011583012,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 304.6307
+      },
+      {
+        "heightM": 1.5,
+        "value": 24.623017374517378,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 245.344149
+      },
+      {
+        "heightM": 2.0,
+        "value": 18.67295173745174,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 186.057597
+      },
+      {
+        "heightM": 2.5,
+        "value": 12.72288610038611,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 126.771046
+      },
+      {
+        "heightM": 3.0,
+        "value": 6.772820463320466,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 67.484494
+      },
+      {
+        "heightM": 3.5,
+        "value": 0.822754826254832,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 8.197943
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "7x3.75 18"
+  }
+}

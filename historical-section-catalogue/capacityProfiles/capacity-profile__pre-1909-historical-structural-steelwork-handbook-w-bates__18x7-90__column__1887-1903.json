@@ -1,0 +1,92 @@
+{
+  "docType": "capacityProfile",
+  "id": "dc5b3d81-6648-43f0-b72e-0a97e994f2f1",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__18x7-90__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "18x7 90",
+  "sectionSlug": "18x7-90",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 179.48306250000002,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 1788.372175
+      },
+      {
+        "heightM": 1.5,
+        "value": 164.38865625,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 1637.971264
+      },
+      {
+        "heightM": 2.0,
+        "value": 149.29425,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 1487.570353
+      },
+      {
+        "heightM": 2.5,
+        "value": 134.19984375000004,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 1337.169442
+      },
+      {
+        "heightM": 3.0,
+        "value": 119.10543750000001,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 1186.768531
+      },
+      {
+        "heightM": 3.5,
+        "value": 104.01103124999999,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 1036.367619
+      },
+      {
+        "heightM": 4.0,
+        "value": 88.91662500000001,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 885.966708
+      },
+      {
+        "heightM": 5.0,
+        "value": 58.727812500000034,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 585.164886
+      },
+      {
+        "heightM": 6.0,
+        "value": 28.539000000000023,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 284.363064
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "18x7 90"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "docType": "capacityProfile",
+  "id": "76d4fd12-4d40-4946-95b8-d0964ddcfe2b",
+  "slug": "capacity-profile__historical-structural-steelwork-handbook-w-bates__BSB-25__column__1903-1921",
+  "designCodeId": "historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "BSB 25",
+  "sectionSlug": "BSB-25",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 77.57255535714286,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 772.934213
+      },
+      {
+        "heightM": 1.5,
+        "value": 67.42747142857144,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 671.84843
+      },
+      {
+        "heightM": 2.0,
+        "value": 57.2823875,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 570.762648
+      },
+      {
+        "heightM": 2.5,
+        "value": 47.137303571428575,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 469.676865
+      },
+      {
+        "heightM": 3.0,
+        "value": 36.992219642857144,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 368.591083
+      },
+      {
+        "heightM": 3.5,
+        "value": 26.847135714285713,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 267.5053
+      },
+      {
+        "heightM": 4.0,
+        "value": 16.70205178571429,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 166.419518
+      },
+      {
+        "heightM": 5.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 6.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 7.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 8.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 9.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 10.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 11.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 12.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 13.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 14.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1800,
+    "designCodePeriodEndYear": 1909
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1903,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1903",
+    "designCodeLabel": "Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "BSB 25"
+  }
+}

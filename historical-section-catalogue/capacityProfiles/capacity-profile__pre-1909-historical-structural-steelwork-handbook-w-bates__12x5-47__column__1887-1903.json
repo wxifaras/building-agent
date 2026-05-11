@@ -1,0 +1,78 @@
+{
+  "docType": "capacityProfile",
+  "id": "031b103b-408b-4f41-99d6-f5f0e9ee10ea",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__12x5-47__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "12x5 47",
+  "sectionSlug": "12x5-47",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 88.56611512158054,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 882.474222
+      },
+      {
+        "heightM": 1.5,
+        "value": 77.4596637537994,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 771.809359
+      },
+      {
+        "heightM": 2.0,
+        "value": 66.35321238601823,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 661.144495
+      },
+      {
+        "heightM": 2.5,
+        "value": 55.24676101823708,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 550.479632
+      },
+      {
+        "heightM": 3.0,
+        "value": 44.140309650455926,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 439.814769
+      },
+      {
+        "heightM": 3.5,
+        "value": 33.03385828267478,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 329.149905
+      },
+      {
+        "heightM": 4.0,
+        "value": 21.927406914893613,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 218.485042
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "12x5 47"
+  }
+}

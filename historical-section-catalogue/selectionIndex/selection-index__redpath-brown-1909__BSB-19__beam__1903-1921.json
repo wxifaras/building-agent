@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "ca47aaa7-c707-4ab3-9189-1217768e3511",
+  "slug": "selection-index__redpath-brown-1909__BSB-19__beam__1903-1921",
+  "designCodeId": "redpath-brown-1909",
+  "sectionKey": "BSB 19",
+  "sectionSlug": "BSB-19",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1903,
+    "periodEndYear": 1921
+  },
+  "designCodeApplicability": {
+    "periodStartYear": 1909,
+    "periodEndYear": 1937
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__redpath-brown-1909__BSB-19__beam__1903-1921",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 517.575,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 517.575,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 113.19,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 130.990995,
+    "bendingMomentCompressionKnM": 130.990995,
+    "shearForceKn": 1127.827015
+  }
+}
