@@ -1,0 +1,59 @@
+{
+  "docType": "selectionIndex",
+  "id": "90cd4f1e-29da-40b1-af35-1c886ab4aa10",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__3-5x1-5-7__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "3.5x1.5 7",
+  "sectionSlug": "3-5x1-5-7",
+  "memberType": "column",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__3-5x1-5-7__column__1887-1903",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 6.311632653061224,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 62.889211
+      },
+      {
+        "heightM": 1.5,
+        "value": 1.2263775510204054,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 12.219646
+      }
+    ]
+  },
+  "normalisedCapacityCurve": [
+    {
+      "heightM": 1.0,
+      "allowableAxialCompressionKn": 62.889211
+    },
+    {
+      "heightM": 1.5,
+      "allowableAxialCompressionKn": 12.219646
+    }
+  ]
+}

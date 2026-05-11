@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "f1fc5fe5-5b43-4119-b97c-cc8a95cc1e15",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__5x4-5-23-75__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "5x4.5 23.75",
+  "sectionSlug": "5x4-5-23-75",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__5x4-5-23-75__beam__1887-1903",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 70.85000000000001,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 70.85000000000001,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 42.42,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 17.931144,
+    "bendingMomentCompressionKnM": 17.931144,
+    "shearForceKn": 422.673575
+  }
+}

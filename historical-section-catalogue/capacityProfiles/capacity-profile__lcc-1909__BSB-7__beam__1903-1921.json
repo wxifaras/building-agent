@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "2a0ce521-bafd-4469-a07b-47a030586549",
+  "slug": "capacity-profile__lcc-1909__BSB-7__beam__1903-1921",
+  "designCodeId": "lcc-1909",
+  "sectionKey": "BSB 7",
+  "sectionSlug": "BSB-7",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 68.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 68.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 29.095,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 17.235158,
+    "bendingMomentCompressionKnM": 17.235158,
+    "shearForceKn": 289.903057
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1909,
+    "designCodePeriodEndYear": 1948
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1903,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1903",
+    "designCodeLabel": "London County Council (General Powers) Act 1909",
+    "table": "Sheet1",
+    "rowKey": "BSB 7"
+  }
+}

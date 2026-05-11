@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "324cd9c7-079c-4a13-ac5d-7d83c72e5c77",
+  "slug": "section__redpath-brown-1909__BSB-18__1903-1921",
+  "designCodeId": "redpath-brown-1909",
+  "sectionKey": "BSB 18",
+  "sectionSlug": "BSB-18",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1903,
+    "periodEndYear": 1921
+  },
+  "source": {
+    "standard": "British Standard 4",
+    "standardYear": 1903,
+    "label": "Properties of Beams to British Standard 4 - 1903"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "British Standard 4",
+      "standardYear": 1903,
+      "label": "Properties of Beams to British Standard 4 - 1903"
+    },
+    {
+      "memberType": "column",
+      "standard": "British Standard 4",
+      "standardYear": 1903,
+      "label": "Properties of Beams to British Standard 4 - 1903"
+    }
+  ]
+}

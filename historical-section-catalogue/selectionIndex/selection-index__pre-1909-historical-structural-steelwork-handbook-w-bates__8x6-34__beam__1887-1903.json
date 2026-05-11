@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "02a5c084-72ac-4f84-b829-56ef8672e0d3",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__8x6-34__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "8x6 34",
+  "sectionSlug": "8x6-34",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__8x6-34__beam__1887-1903",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 180.04999999999998,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 180.04999999999998,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 60.72,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 45.568137,
+    "bendingMomentCompressionKnM": 45.568137,
+    "shearForceKn": 605.015075
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "eaac57a3-da5e-4683-b864-6d0dbce5e2c2",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__3-5x3-12-5__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "3.5x3 12.5",
+  "sectionSlug": "3-5x3-12-5",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__3-5x3-12-5__beam__1887-1903",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 25.22,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 25.22,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 22.32,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 6.382829,
+    "bendingMomentCompressionKnM": 6.382829,
+    "shearForceKn": 222.396846
+  }
+}

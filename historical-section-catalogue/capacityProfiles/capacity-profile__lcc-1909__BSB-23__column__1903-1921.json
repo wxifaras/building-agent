@@ -1,0 +1,148 @@
+{
+  "docType": "capacityProfile",
+  "id": "13da1bb9-709f-4ab6-8dab-41e1814b41f0",
+  "slug": "capacity-profile__lcc-1909__BSB-23__column__1903-1921",
+  "designCodeId": "lcc-1909",
+  "sectionKey": "BSB 23",
+  "sectionSlug": "BSB-23",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 47.355,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 471.845996
+      },
+      {
+        "heightM": 1.5,
+        "value": 40.589999999999996,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 404.439425
+      },
+      {
+        "heightM": 2.0,
+        "value": 33.824999999999996,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 337.032854
+      },
+      {
+        "heightM": 2.5,
+        "value": 33.824999999999996,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 337.032854
+      },
+      {
+        "heightM": 3.0,
+        "value": 27.06,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 269.626283
+      },
+      {
+        "heightM": 3.5,
+        "value": 13.53,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 134.813142
+      },
+      {
+        "heightM": 4.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 5.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 6.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 7.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 8.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 9.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 10.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 11.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 12.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 13.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 14.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1909,
+    "designCodePeriodEndYear": 1948
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1903,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1903",
+    "designCodeLabel": "London County Council (General Powers) Act 1909",
+    "table": "Sheet1",
+    "rowKey": "BSB 23"
+  }
+}

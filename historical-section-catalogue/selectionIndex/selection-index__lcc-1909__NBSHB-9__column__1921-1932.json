@@ -1,0 +1,224 @@
+{
+  "docType": "selectionIndex",
+  "id": "6e5e4157-6bb2-4fba-9bce-9b133be80a93",
+  "slug": "selection-index__lcc-1909__NBSHB-9__column__1921-1932",
+  "designCodeId": "lcc-1909",
+  "sectionKey": "NBSHB 9",
+  "sectionSlug": "NBSHB-9",
+  "memberType": "column",
+  "sectionApplicability": {
+    "periodStartYear": 1921,
+    "periodEndYear": 1932
+  },
+  "designCodeApplicability": {
+    "periodStartYear": 1909,
+    "periodEndYear": 1948
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__lcc-1909__NBSHB-9__column__1921-1932",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 72.065,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 718.056841
+      },
+      {
+        "heightM": 1.5,
+        "value": 72.065,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 718.056841
+      },
+      {
+        "heightM": 2.0,
+        "value": 61.769999999999996,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 615.477292
+      },
+      {
+        "heightM": 2.5,
+        "value": 61.769999999999996,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 615.477292
+      },
+      {
+        "heightM": 3.0,
+        "value": 51.475,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 512.897743
+      },
+      {
+        "heightM": 3.5,
+        "value": 51.475,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 512.897743
+      },
+      {
+        "heightM": 4.0,
+        "value": 41.18,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 410.318195
+      },
+      {
+        "heightM": 5.0,
+        "value": 20.59,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 205.159097
+      },
+      {
+        "heightM": 6.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 7.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 8.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 9.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 10.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 11.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 12.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 13.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      },
+      {
+        "heightM": 14.0,
+        "value": 0.0,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 0.0
+      }
+    ]
+  },
+  "normalisedCapacityCurve": [
+    {
+      "heightM": 1.0,
+      "allowableAxialCompressionKn": 718.056841
+    },
+    {
+      "heightM": 1.5,
+      "allowableAxialCompressionKn": 718.056841
+    },
+    {
+      "heightM": 2.0,
+      "allowableAxialCompressionKn": 615.477292
+    },
+    {
+      "heightM": 2.5,
+      "allowableAxialCompressionKn": 615.477292
+    },
+    {
+      "heightM": 3.0,
+      "allowableAxialCompressionKn": 512.897743
+    },
+    {
+      "heightM": 3.5,
+      "allowableAxialCompressionKn": 512.897743
+    },
+    {
+      "heightM": 4.0,
+      "allowableAxialCompressionKn": 410.318195
+    },
+    {
+      "heightM": 5.0,
+      "allowableAxialCompressionKn": 205.159097
+    },
+    {
+      "heightM": 6.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 7.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 8.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 9.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 10.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 11.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 12.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 13.0,
+      "allowableAxialCompressionKn": 0.0
+    },
+    {
+      "heightM": 14.0,
+      "allowableAxialCompressionKn": 0.0
+    }
+  ]
+}

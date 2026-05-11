@@ -1,0 +1,64 @@
+{
+  "docType": "capacityProfile",
+  "id": "ebe73102-b910-4475-b3de-647902e6aa4b",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__4-62x3-14__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "4.62x3 14",
+  "sectionSlug": "4-62x3-14",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 22.23751394209103,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 221.574953
+      },
+      {
+        "heightM": 1.5,
+        "value": 16.834507520279406,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 167.739309
+      },
+      {
+        "heightM": 2.0,
+        "value": 11.431501098467777,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 113.903664
+      },
+      {
+        "heightM": 2.5,
+        "value": 6.028494676656153,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 60.06802
+      },
+      {
+        "heightM": 3.0,
+        "value": 0.6254882548445224,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 6.232375
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "4.62x3 14"
+  }
+}

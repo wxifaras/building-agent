@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "4c9e8cdf-0c3f-47e7-91a7-fa3681305e62",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__8x4-22__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "8x4 22",
+  "sectionSlug": "8x4-22",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 113.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 113.1,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 39.3,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 28.624028,
+    "bendingMomentCompressionKnM": 28.624028,
+    "shearForceKn": 391.585844
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "8x4 22"
+  }
+}

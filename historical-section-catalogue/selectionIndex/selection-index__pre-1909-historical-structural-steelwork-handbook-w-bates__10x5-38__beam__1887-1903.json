@@ -1,0 +1,49 @@
+{
+  "docType": "selectionIndex",
+  "id": "4e860ba7-6e6f-45d0-99e6-e6916c88af34",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__10x5-38__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "10x5 38",
+  "sectionSlug": "10x5-38",
+  "memberType": "beam",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__10x5-38__beam__1887-1903",
+  "capacity": {
+    "bendingMomentTension": {
+      "value": 235.95,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 235.95,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 67.80000000000001,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalisedCapacity": {
+    "bendingMomentTensionKnM": 59.715646,
+    "bendingMomentCompressionKnM": 59.715646,
+    "shearForceKn": 675.560311
+  }
+}

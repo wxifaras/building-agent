@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "956e2ce8-2244-4445-a9dd-200b5db8bc0b",
+  "slug": "section__pre-1909-historical-structural-steelwork-handbook-w-bates__6x5-24__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "6x5 24",
+  "sectionSlug": "6x5-24",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "source": {
+    "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "standardYear": 1887,
+    "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    },
+    {
+      "memberType": "column",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    }
+  ]
+}

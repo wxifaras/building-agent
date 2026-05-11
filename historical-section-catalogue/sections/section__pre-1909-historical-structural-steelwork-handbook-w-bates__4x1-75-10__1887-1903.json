@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "058d2317-ae6d-4e73-8526-85b11a91acd5",
+  "slug": "section__pre-1909-historical-structural-steelwork-handbook-w-bates__4x1-75-10__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "4x1.75 10",
+  "sectionSlug": "4x1-75-10",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "source": {
+    "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "standardYear": 1887,
+    "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    },
+    {
+      "memberType": "column",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    }
+  ]
+}

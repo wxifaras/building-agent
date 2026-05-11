@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "65a28675-1588-496b-a21d-d8500debd474",
+  "slug": "capacity-profile__redpath-brown-1909__BSB-17__beam__1903-1921",
+  "designCodeId": "redpath-brown-1909",
+  "sectionKey": "BSB 17",
+  "sectionSlug": "BSB-17",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 218.55,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 218.55,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 48.510000000000005,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 55.311949,
+    "bendingMomentCompressionKnM": 55.311949,
+    "shearForceKn": 483.354435
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1909,
+    "designCodePeriodEndYear": 1937
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1903,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1903",
+    "designCodeLabel": "Redpath Brown & Co Ltd",
+    "table": "Sheet1",
+    "rowKey": "BSB 17"
+  }
+}

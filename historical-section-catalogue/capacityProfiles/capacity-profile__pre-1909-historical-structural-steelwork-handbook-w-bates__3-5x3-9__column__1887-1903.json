@@ -1,0 +1,57 @@
+{
+  "docType": "capacityProfile",
+  "id": "a4d53bbf-8827-41df-b080-a5bcc0fd7578",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__3-5x3-9__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "3.5x3 9",
+  "sectionSlug": "3-5x3-9",
+  "memberType": "column",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 13.48476106639839,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 134.36238
+      },
+      {
+        "heightM": 1.5,
+        "value": 9.608838028169014,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 95.74262
+      },
+      {
+        "heightM": 2.0,
+        "value": 5.732914989939636,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 57.122859
+      },
+      {
+        "heightM": 2.5,
+        "value": 1.8569919517102598,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 18.503098
+      }
+    ]
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "3.5x3 9"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "docType": "selectionIndex",
+  "id": "e11f19d9-8c33-4478-bd8b-7cb4a298d603",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__8x6-36__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "8x6 36",
+  "sectionSlug": "8x6-36",
+  "memberType": "column",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__8x6-36__column__1887-1903",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 70.15500940635452,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 699.025663
+      },
+      {
+        "heightM": 1.5,
+        "value": 62.79892035953178,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 625.729471
+      },
+      {
+        "heightM": 2.0,
+        "value": 55.44283131270904,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 552.43328
+      },
+      {
+        "heightM": 2.5,
+        "value": 48.08674226588629,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 479.137088
+      },
+      {
+        "heightM": 3.0,
+        "value": 40.73065321906355,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 405.840896
+      },
+      {
+        "heightM": 3.5,
+        "value": 33.37456417224081,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 332.544704
+      },
+      {
+        "heightM": 4.0,
+        "value": 26.018475125418068,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 259.248512
+      },
+      {
+        "heightM": 5.0,
+        "value": 11.306297031772582,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 112.656129
+      }
+    ]
+  },
+  "normalisedCapacityCurve": [
+    {
+      "heightM": 1.0,
+      "allowableAxialCompressionKn": 699.025663
+    },
+    {
+      "heightM": 1.5,
+      "allowableAxialCompressionKn": 625.729471
+    },
+    {
+      "heightM": 2.0,
+      "allowableAxialCompressionKn": 552.43328
+    },
+    {
+      "heightM": 2.5,
+      "allowableAxialCompressionKn": 479.137088
+    },
+    {
+      "heightM": 3.0,
+      "allowableAxialCompressionKn": 405.840896
+    },
+    {
+      "heightM": 3.5,
+      "allowableAxialCompressionKn": 332.544704
+    },
+    {
+      "heightM": 4.0,
+      "allowableAxialCompressionKn": 259.248512
+    },
+    {
+      "heightM": 5.0,
+      "allowableAxialCompressionKn": 112.656129
+    }
+  ]
+}

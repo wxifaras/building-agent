@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "8755d0ca-77eb-4e62-8ba7-da43996eb7db",
+  "slug": "capacity-profile__istructe-1927__NBSHB-11__beam__1921-1932",
+  "designCodeId": "istructe-1927",
+  "sectionKey": "NBSHB 11",
+  "sectionSlug": "NBSHB-11",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 1148.8,
+      "unit": "tons",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 1148.8,
+      "unit": "tons",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 160.004,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 290.745215,
+    "bendingMomentCompressionKnM": 290.745215,
+    "shearForceKn": 1594.282478
+  },
+  "applicability": {
+    "designCodePeriodStartYear": 1927,
+    "designCodePeriodEndYear": 1933
+  },
+  "source": {
+    "sectionStandard": "British Standard 4",
+    "sectionStandardYear": 1921,
+    "sectionStandardLabel": "Properties of Beams to British Standard 4 - 1921",
+    "designCodeLabel": "Institution of Structural Engineers Report on Steelwork for Buildings 1927",
+    "table": "Sheet1",
+    "rowKey": "NBSHB 11"
+  }
+}

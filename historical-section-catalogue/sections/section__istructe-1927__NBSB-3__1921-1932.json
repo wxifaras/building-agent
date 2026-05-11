@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "4983f9cc-90b8-4998-a47e-fbe3e8e21bf6",
+  "slug": "section__istructe-1927__NBSB-3__1921-1932",
+  "designCodeId": "istructe-1927",
+  "sectionKey": "NBSB 3",
+  "sectionSlug": "NBSB-3",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1921,
+    "periodEndYear": 1932
+  },
+  "source": {
+    "standard": "British Standard 4",
+    "standardYear": 1921,
+    "label": "Properties of Beams to British Standard 4 - 1921"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "British Standard 4",
+      "standardYear": 1921,
+      "label": "Properties of Beams to British Standard 4 - 1921"
+    },
+    {
+      "memberType": "column",
+      "standard": "British Standard 4",
+      "standardYear": 1921,
+      "label": "Properties of Beams to British Standard 4 - 1921"
+    }
+  ]
+}

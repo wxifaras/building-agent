@@ -1,0 +1,35 @@
+{
+  "docType": "section",
+  "id": "b755919d-8c43-4e39-9449-9ee14408a702",
+  "slug": "section__pre-1909-historical-structural-steelwork-handbook-w-bates__4-62x3-12__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "4.62x3 12",
+  "sectionSlug": "4-62x3-12",
+  "memberTypes": [
+    "beam",
+    "column"
+  ],
+  "applicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "source": {
+    "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "standardYear": 1887,
+    "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+  },
+  "sourceReferences": [
+    {
+      "memberType": "beam",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    },
+    {
+      "memberType": "column",
+      "standard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+      "standardYear": 1887,
+      "label": "Beam Sizes Rolled by Dorman Long & Co - 1887"
+    }
+  ]
+}

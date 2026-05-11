@@ -1,0 +1,43 @@
+{
+  "docType": "capacityProfile",
+  "id": "f93b2605-c36a-4eba-804a-141fb79f1a40",
+  "slug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__5x5-23__beam__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "5x5 23",
+  "sectionSlug": "5x5-23",
+  "memberType": "beam",
+  "capacities": {
+    "bendingMomentTension": {
+      "value": 75.39999999999999,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in tension"
+    },
+    "bendingMomentCompression": {
+      "value": 75.39999999999999,
+      "unit": "tons-in",
+      "label": "Allowable bending moment in compression"
+    },
+    "shearForce": {
+      "value": 40.92,
+      "unit": "tons",
+      "label": "Allowable shear force"
+    }
+  },
+  "normalised": {
+    "bendingMomentTensionKnM": 19.082686,
+    "bendingMomentCompressionKnM": 19.082686,
+    "shearForceKn": 407.72755
+  },
+  "applicability": {
+    "designCodePeriodStartYear": null,
+    "designCodePeriodEndYear": null
+  },
+  "source": {
+    "sectionStandard": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "sectionStandardYear": 1887,
+    "sectionStandardLabel": "Beam Sizes Rolled by Dorman Long & Co - 1887",
+    "designCodeLabel": "Pre-1909: Historical Structural Steelwork Handbook, W. Bates",
+    "table": "Sheet1",
+    "rowKey": "5x5 23"
+  }
+}

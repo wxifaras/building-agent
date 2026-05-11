@@ -1,0 +1,92 @@
+{
+  "docType": "selectionIndex",
+  "id": "d1f693bc-555c-4492-96c0-75a855a5e4f2",
+  "slug": "selection-index__pre-1909-historical-structural-steelwork-handbook-w-bates__5x3-15-25__column__1887-1903",
+  "designCodeId": "pre-1909-historical-structural-steelwork-handbook-w-bates",
+  "sectionKey": "5x3 15.25",
+  "sectionSlug": "5x3-15-25",
+  "memberType": "column",
+  "sectionApplicability": {
+    "periodStartYear": 1887,
+    "periodEndYear": 1903
+  },
+  "designCodeApplicability": {
+    "periodStartYear": null,
+    "periodEndYear": null
+  },
+  "dimensions": {
+    "depthMm": null,
+    "widthMm": null,
+    "massKgPerM": null
+  },
+  "selection": {
+    "isSelectable": true,
+    "confidence": "high"
+  },
+  "sourceProfileSlug": "capacity-profile__pre-1909-historical-structural-steelwork-handbook-w-bates__5x3-15-25__column__1887-1903",
+  "capacityCurve": {
+    "type": "allowableAxialCompressionByHeight",
+    "label": "Allowable axial force in compression, for column heights (m)",
+    "heightUnit": "m",
+    "unit": "tons",
+    "points": [
+      {
+        "heightM": 1.0,
+        "value": 24.135929421768708,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 240.490796
+      },
+      {
+        "heightM": 1.5,
+        "value": 18.216170918367343,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 181.506225
+      },
+      {
+        "heightM": 2.0,
+        "value": 12.296412414965989,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 122.521655
+      },
+      {
+        "heightM": 2.5,
+        "value": 6.3766539115646275,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 63.537084
+      },
+      {
+        "heightM": 3.0,
+        "value": 0.45689540816326,
+        "unit": "tons",
+        "isValid": true,
+        "allowableAxialCompressionKn": 4.552513
+      }
+    ]
+  },
+  "normalisedCapacityCurve": [
+    {
+      "heightM": 1.0,
+      "allowableAxialCompressionKn": 240.490796
+    },
+    {
+      "heightM": 1.5,
+      "allowableAxialCompressionKn": 181.506225
+    },
+    {
+      "heightM": 2.0,
+      "allowableAxialCompressionKn": 122.521655
+    },
+    {
+      "heightM": 2.5,
+      "allowableAxialCompressionKn": 63.537084
+    },
+    {
+      "heightM": 3.0,
+      "allowableAxialCompressionKn": 4.552513
+    }
+  ]
+}
